@@ -6,8 +6,10 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager instance = null;
     public StetusData player_stetus;
-
     public float spSize = 1;
+    public Player player; //プレイヤーのクラス
+    public List<GameObject> ActorList = new List<GameObject>();
+
 
     void Awake()
     {
@@ -29,5 +31,16 @@ public class GameManager : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 		
+
+
 	}
+
+
+    void PlayerMoveSet(int hor,int ver)
+    {
+
+    }
+
+    
+
 }

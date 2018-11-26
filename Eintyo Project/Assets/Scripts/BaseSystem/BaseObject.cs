@@ -9,9 +9,12 @@ public abstract class BaseObject : MonoBehaviour {
     private Rigidbody2D rb2D;
     public float moveTime = 5.0f;
 
-    public StetusData stetus;
-    public bool isMoving = false;
-    public float size;
+    public StetusData stetus; //ステータス
+    public bool isMoving = false; //移動中かどうか
+    public float size; //タイルのサイズ(自動)
+    public float priority = 0; //優先
+    
+
 
     public LayerMask blockingLayer;
 
@@ -29,9 +32,13 @@ public abstract class BaseObject : MonoBehaviour {
             stetus = GetComponent<StetusData>();
         }
 
-
+        //行動順リストに入れる
+        GameManager.instance.ActorList.Add(this.gameObject);
         
     }
+
+
+
 
     //移動可能かを判断するメソッド　可能な場合はSmoothMovementへ
     protected bool Move(int xDir, int yDir, out RaycastHit2D hit)
@@ -65,52 +72,22 @@ public abstract class BaseObject : MonoBehaviour {
     //現在地から目的地(引数end)へ移動するためのメソッド
     protected IEnumerator SmoothMovement(Vector3 end)
     {
-
-        //現在地から目的地を引き、2点間の距離を求める(Vector3型)
-        //sqrMagnitudeはベクトルを2乗したあと2点間の距離に変換する(float型)
-        float sqrRemainingDistance = (transform.position - end).sqrMagnitude;
-        //2点間の距離が0になった時、ループを抜ける
-        //Epsilon : ほとんど0に近い数値を表す
-        //Vector3 newPosition = (transform.position - end).normalized;
-
-        isMoving = true;
-        Vector3 moveDirection = (transform.position - end).normalized;
-
-        while (true)
+        //一応これにして、問題が起きたら修正する。
+        Vector3 moveDirection = (transform.position - end); //進む方向と距離
+        isMoving = true; //移動中かどうか
+        int moveSplit = 16;
+        int i = 0;
+        //一マスを8回に分けて進む
+        while (i < moveSplit)
         {
 
-            transform.position -= moveDirection;// * Time.deltaTime;
+            transform.position -= moveDirection / moveSplit;// * Time.deltaTime;
             Debug.Log((transform.position - end).normalized);
             yield return null;
+            i += 1;
         }
-
-
-            /*
-            while (sqrRemainingDistance > float.Epsilon)
-            {
-                //現在地と移動先の間を1秒間にinverseMoveTime分だけ移動する場合の、
-                //1フレーム分の移動距離を算出する
-                //Vector3 newPosition = Vector3.MoveTowards(rb2D.position, end, size * Time.deltaTime);
-
-                newPosition += (transform.position - end).normalized * Time.deltaTime;
-                //Debug.Log("(NEW)"+ size * (transform.position - end).normalized);
-                //Debug.Log(newPosition);
-                //newPosition = new Vector3(0, 0, 0);
-                Debug.Log("ループ中");
-
-                //算出した移動距離分、移動する
-                rb2D.MovePosition(newPosition);
-                //this.transform.position = newPosition;
-                //現在地が目的地寄りになった結果、sqrRemainDistanceが小さくなる
-                sqrRemainingDistance = (transform.position - end).sqrMagnitude;
-                //1フレーム待ってから、while文の先頭へ戻る
-                yield return null;
-            }
-            */
-            isMoving = false;
+        isMoving = false;
     }
-
-
 
 
     ///移動を試みるメソッド
