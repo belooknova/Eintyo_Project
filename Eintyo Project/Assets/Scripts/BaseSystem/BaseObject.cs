@@ -9,13 +9,12 @@ public abstract class BaseObject : MonoBehaviour {
     private Rigidbody2D rb2D;
     public float moveTime = 5.0f;
 
-    public StetusData stetus; //ステータス
+    public StatusData stetus; //ステータス
     public bool isMoving = false; //移動中かどうか
     public float size; //タイルのサイズ(自動)
-    public float priority = 0; //優先
-    
 
-
+    public bool isTurning = false; //ターン中かどうか調べる
+ 
     public LayerMask blockingLayer;
 
     
@@ -25,11 +24,11 @@ public abstract class BaseObject : MonoBehaviour {
         size = GameManager.instance.spSize;
 
         //StetudDataを保証する
-        stetus = GetComponent<StetusData>();
+        stetus = GetComponent<StatusData>();
         if (stetus == null)
         {
-            this.gameObject.AddComponent<StetusData>();
-            stetus = GetComponent<StetusData>();
+            this.gameObject.AddComponent<StatusData>();
+            stetus = GetComponent<StatusData>();
         }
 
         //行動順リストに入れる
@@ -37,6 +36,17 @@ public abstract class BaseObject : MonoBehaviour {
         
     }
 
+    //自分のターンが回って来た時のUpDate()
+    public virtual void TurnUpDate()
+    {
+        
+    }
+
+    //次の状態に偏移するためのメソッド(サブクラスでオーバーライドする)
+    public virtual void Next_status()
+    {
+
+    }
 
 
 
@@ -66,16 +76,17 @@ public abstract class BaseObject : MonoBehaviour {
         }
         //移動に失敗したことを伝える
         return false;
+
     }
   
 
     //現在地から目的地(引数end)へ移動するためのメソッド
-    protected IEnumerator SmoothMovement(Vector3 end)
+    protected virtual IEnumerator SmoothMovement(Vector3 end)
     {
         //一応これにして、問題が起きたら修正する。
         Vector3 moveDirection = (transform.position - end); //進む方向と距離
         isMoving = true; //移動中かどうか
-        int moveSplit = 16;
+        int moveSplit = 8;
         int i = 0;
         //一マスを8回に分けて進む
         while (i < moveSplit)
@@ -87,6 +98,9 @@ public abstract class BaseObject : MonoBehaviour {
             i += 1;
         }
         isMoving = false;
+
+        Next_status();
+
     }
 
 
@@ -106,5 +120,4 @@ public abstract class BaseObject : MonoBehaviour {
         }
         
     }
-    
 }

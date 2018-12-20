@@ -307,11 +307,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\BaseSystem\BaseObject.cs" />
+    <Compile Include="Assets\Scripts\BaseSystem\Enemy.cs" />
     <Compile Include="Assets\Scripts\BaseSystem\GameManager.cs" />
-    <Compile Include="Assets\Scripts\BaseSystem\Key_Input.cs" />
     <Compile Include="Assets\Scripts\BaseSystem\MovingObject.cs" />
     <Compile Include="Assets\Scripts\BaseSystem\Player.cs" />
-    <Compile Include="Assets\Scripts\BaseSystem\StetusData.cs" />
+    <Compile Include="Assets\Scripts\BaseSystem\StatusData.cs" />
     <Compile Include="Assets\Scripts\Dungeon\DgDivision.cs" />
     <Compile Include="Assets\Scripts\Dungeon\DgGenerator.cs" />
     <Compile Include="Assets\Scripts\Dungeon\Layer2D.cs" />
