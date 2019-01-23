@@ -306,6 +306,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\BaseSystem\Attack.cs" />
     <Compile Include="Assets\Scripts\BaseSystem\BaseObject.cs" />
     <Compile Include="Assets\Scripts\BaseSystem\Enemy.cs" />
     <Compile Include="Assets\Scripts\BaseSystem\GameManager.cs" />

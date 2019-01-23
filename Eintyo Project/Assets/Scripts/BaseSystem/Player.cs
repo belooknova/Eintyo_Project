@@ -4,21 +4,40 @@ using UnityEngine;
 
 public class Player : BaseObject {
     int hor = 0 , ver = 0;
+    
 
     // Use this for initialization
     protected override void Start() {
         base.Start();
         GetComponent<StatusData>().priority = -1;
         GameManager.instance.player = this;
+        //animatorの設定
+        
+
 	}
 
+    protected override void Update()
+    {
+        //anim.SetBool("Moving", isMoving);
+        if (hor == 0 && ver == 0)
+        {
+            anim.SetBool("Moving", false);
+        }
+        else
+        {
+            anim.SetBool("Moving", true);
+        }
+
+        anim.SetFloat("dir_x",hor);
+        anim.SetFloat("dir_y", ver);
+        anim.SetInteger("dir", dir);
+        base.Update();
+    }
 
     //ターン用UpDate
     public override void TurnUpDate()
     {
         base.TurnUpDate();
-
-
         if (hor != 0 || ver != 0)
         {
             //移動できるかどうか調べる

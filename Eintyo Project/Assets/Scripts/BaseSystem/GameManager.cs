@@ -45,9 +45,11 @@ public class GameManager : MonoBehaviour {
             horizontal = (int)Input.GetAxisRaw("Horizontal");
             vertical = (int)Input.GetAxisRaw("Vertical");
 
+
+            player.Movekey_Set(horizontal, vertical);
             if (horizontal != 0 || vertical != 0)
             {
-                player.Movekey_Set(horizontal, vertical);
+                //player.Movekey_Set(horizontal, vertical);
                 stateTrans = "Player";
             }
 

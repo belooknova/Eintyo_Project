@@ -7,6 +7,8 @@ public abstract class BaseObject : MonoBehaviour {
     //コリダーとリジッドボディ取得
     private BoxCollider2D boxCollider;
     private Rigidbody2D rb2D;
+    protected int dir = 0;
+
     public float moveTime = 5.0f;
 
     public StatusData stetus; //ステータス
@@ -17,11 +19,15 @@ public abstract class BaseObject : MonoBehaviour {
  
     public LayerMask blockingLayer;
 
-    
+    //---アニメーション---
+    protected Animator anim;
+
     protected virtual void Start () {
         boxCollider = GetComponent<BoxCollider2D>();
         rb2D = GetComponent<Rigidbody2D>();
         size = GameManager.instance.spSize;
+
+        anim = GetComponent<Animator>();
 
         //StetudDataを保証する
         stetus = GetComponent<StatusData>();
@@ -33,6 +39,12 @@ public abstract class BaseObject : MonoBehaviour {
 
         //行動順リストに入れる
         GameManager.instance.ActorList.Add(this.gameObject);
+        
+    }
+
+    protected virtual void Update()
+    {
+        
         
     }
 
@@ -109,6 +121,9 @@ public abstract class BaseObject : MonoBehaviour {
       //<T>：ジェネリック機能　型を決めておかず、後から指定する
     protected virtual void AttemptMove(int xDir, int yDir)
     {
+        //動いた時に遷移する
+        actorDir(xDir, yDir);
+
         RaycastHit2D hit;
         //Moveメソッド実行 戻り値がtrueなら移動成功、falseなら移動失敗
         bool canMove = Move(xDir, yDir, out hit);
@@ -120,4 +135,43 @@ public abstract class BaseObject : MonoBehaviour {
         }
         
     }
+
+    /// <summary>
+    /// 攻撃メソッド
+    /// </summary>
+    protected virtual void AttemptAttack(StatusData data)
+    {
+        //AttackSource attack = new AttackSource(stetus, data);
+
+    }
+
+
+
+
+    //向き変換
+    protected void actorDir(int x, int y)
+    {
+        if (x == 0 && y < 0)
+        {
+            this.dir = 0;
+        }
+
+        if (x > 0 && y == 0)
+        {
+            this.dir = 1;
+        }
+
+        if (x == 0 && y > 0)
+        {
+            this.dir = 2;
+        }
+
+        if (x < 0 && y == 0)
+        {
+            this.dir = 3;
+        }
+        
+
+    } 
+
 }
