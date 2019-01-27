@@ -4,12 +4,21 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
+    //アクセスできる変数
     public static GameManager instance = null;
     public StatusData player_stetus;
     public float spSize = 1;
     public Player player; //プレイヤーのクラス
     public List<GameObject> ActorList = new List<GameObject>();
-    public string stateTrans = "Input";
+
+
+    private string stateTrans = "Input";
+
+    [SerializeField, Header("DB Setting")]
+    private StateDataManager BD_State;
+
+    [SerializeField]
+    private SkillDataManager BD_skills;
 
     //-----敵関係の変数-----
     List<Enemy> EnemyList = new List<Enemy>(); //今ステージに居る敵を管理するリスト
@@ -24,13 +33,10 @@ public class GameManager : MonoBehaviour {
 
     }
 
-
     // Use this for initialization
     void Start () {
 		
 	}
-
-
 
     // Update is called once per frame
     void Update()
@@ -129,4 +135,19 @@ public class GameManager : MonoBehaviour {
     {
         this.enemies_state = 0;
     }
+
+    //ステート(バフ)データベースを取得する
+    public StateDataManager GetDB_States()
+    {
+        return this.BD_State;
+    }
+
+    //スキルデータベースを取得する
+    public SkillDataManager GetDB_Skills()
+    {
+        return this.BD_skills;
+    }
+
+
 }
+

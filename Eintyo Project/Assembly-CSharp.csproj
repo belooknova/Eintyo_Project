@@ -69,8 +69,12 @@
     <Compile Include="Assets\Scripts\BaseSystem\MovingObject.cs" />
     <Compile Include="Assets\Scripts\BaseSystem\Player.cs" />
     <Compile Include="Assets\Scripts\BaseSystem\StatusData.cs" />
+    <Compile Include="Assets\Scripts\DB\Formula.cs" />
+    <Compile Include="Assets\Scripts\DB\Purser.cs" />
+    <Compile Include="Assets\Scripts\DB\Skill_DB.cs" />
+    <Compile Include="Assets\Scripts\DB\SkillDataManager.cs" />
     <Compile Include="Assets\Scripts\DB\State_DB.cs" />
-    <Compile Include="Assets\Scripts\DB\StateDataBase.cs" />
+    <Compile Include="Assets\Scripts\DB\StateDataManager.cs" />
     <Compile Include="Assets\Scripts\Dungeon\DgDivision.cs" />
     <Compile Include="Assets\Scripts\Dungeon\DgGenerator.cs" />
     <Compile Include="Assets\Scripts\Dungeon\Layer2D.cs" />

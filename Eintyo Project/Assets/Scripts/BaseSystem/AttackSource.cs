@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FormulePurser;
 
 public class AttackSource : MonoBehaviour{
 
@@ -9,7 +10,19 @@ public class AttackSource : MonoBehaviour{
 
     private int damageField;　//計算したダメージ
 
-    
+    private void Start()
+    {
+        StatusData A = GetComponent<StatusData>();
+
+        Purser p = new Purser(A, A, "((1 + a.def)* 2) * (b.atk + 12)");
+        //Purser p = new Purser(A, A, "34+67*78");
+
+        Debug.Log(p.Eval());
+        //string s = "a.atk+56*34+(2 * a.hun)";
+        //Debug.Log(s.IndexOf("a.atk"));
+        //Debug.Log(p.Conversion_Status(s));
+
+    }
 
 
 

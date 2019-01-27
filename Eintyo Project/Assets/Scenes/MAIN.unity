@@ -122,13 +122,14 @@ GameObject:
   m_Component:
   - component: {fileID: 170772150}
   - component: {fileID: 170772151}
+  - component: {fileID: 170772152}
   m_Layer: 0
   m_Name: Test
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &170772150
 Transform:
   m_ObjectHideFlags: 0
@@ -153,6 +154,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9fed07426353644ab96d4d7e27666ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &170772152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 170772149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07a9cb76be7ed974bab94389f7cc19b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  priority: 0
+  _hp: 1267
+  _hp_mx: 3545
+  _sp: 34
+  _sp_mx: 100
+  _atk: 12
+  _def: 56
+  _agi: 78
+  _hun: 97
+  _hun_mx: 454
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -527,7 +549,8 @@ MonoBehaviour:
   spSize: 1.28
   player: {fileID: 0}
   ActorList: []
-  stateTrans: Input
+  BD_State: {fileID: 0}
+  BD_skills: {fileID: 0}
 --- !u!4 &1335864592
 Transform:
   m_ObjectHideFlags: 0
