@@ -14,4 +14,24 @@ public class StateDataManager : ScriptableObject
         return stateLists;
     }
 
+    //リストの長さを取得する
+    public int GetListLenght()
+    {
+        return stateLists.Count;
+    }
+
+    //リストの要素数とステート名の対応関係を出力する
+    public Dictionary<string, int> GetAddressTable()
+    {
+        Dictionary<string, int> dect = new Dictionary<string, int>();
+        for (int i=0; i < GetListLenght(); i++)
+        {
+            string name = stateLists[i].name;
+            dect.Add(name, i);
+            Debug.Log(name);
+        }
+        return dect;
+    }
+
+
 }

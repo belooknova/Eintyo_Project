@@ -35,14 +35,6 @@ public class StatusData : MonoBehaviour {
         get { return _hp; }
     }
 
-    public void SetHp(Object obj, int hp)
-    {
-        if(obj is AttackSource)
-        {
-            _hp = hp;
-        }
-    }
-
     public int HpMax
     {
         get { return _hp_mx; }

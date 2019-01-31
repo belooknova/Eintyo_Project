@@ -18,6 +18,7 @@ public class Player : BaseObject {
 
     protected override void Update()
     {
+        /*
         //anim.SetBool("Moving", isMoving);
         if (hor == 0 && ver == 0)
         {
@@ -31,6 +32,7 @@ public class Player : BaseObject {
         anim.SetFloat("dir_x",hor);
         anim.SetFloat("dir_y", ver);
         anim.SetInteger("dir", dir);
+        */    
         base.Update();
     }
 
@@ -56,7 +58,7 @@ public class Player : BaseObject {
 
     private void OnDisable()
     {
-        GameManager.instance.player_stetus = stetus;
+        GameManager.instance.player_stetus = GetStatus();
     }
 
     // horizontal入力とvertical入力の設定

@@ -113,68 +113,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &170772149
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 170772150}
-  - component: {fileID: 170772151}
-  - component: {fileID: 170772152}
-  m_Layer: 0
-  m_Name: Test
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &170772150
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 170772149}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.8033769, y: 0.056605183, z: -0.7056741}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &170772151
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 170772149}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9fed07426353644ab96d4d7e27666ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &170772152
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 170772149}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07a9cb76be7ed974bab94389f7cc19b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  priority: 0
-  _hp: 1267
-  _hp_mx: 3545
-  _sp: 34
-  _sp_mx: 100
-  _atk: 12
-  _def: 56
-  _agi: 78
-  _hun: 97
-  _hun_mx: 454
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -603,31 +541,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 1167386176228610, guid: 6bd55dcac392d6541894964a29ae0201, type: 2}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 212900145304579968, guid: 6bd55dcac392d6541894964a29ae0201,
-        type: 2}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 741d51539a4ed7a4ebbd65e72a52b99a,
-        type: 3}
-    - target: {fileID: 212900145304579968, guid: 6bd55dcac392d6541894964a29ae0201,
-        type: 2}
-      propertyPath: m_Size.y
-      value: 0.64
-      objectReference: {fileID: 0}
-    - target: {fileID: 212900145304579968, guid: 6bd55dcac392d6541894964a29ae0201,
-        type: 2}
-      propertyPath: m_WasSpriteAssigned
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 95713212388797920, guid: 6bd55dcac392d6541894964a29ae0201,
-        type: 2}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 634c72e9058b12248a503bb44b8a03bb, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6bd55dcac392d6541894964a29ae0201, type: 2}
   m_IsPrefabAsset: 0

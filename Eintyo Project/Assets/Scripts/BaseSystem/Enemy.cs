@@ -16,6 +16,7 @@ public class Enemy : BaseObject {
         int hor = Random.Range(-1, 1);
         int ver = Random.Range(-1, 1);
 
+        //移動を試みる
         AttemptMove(hor, ver);
     }
 

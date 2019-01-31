@@ -11,6 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 208ce74bf7a50234885f9579bb0a6e95, type: 3}
   m_Name: Paralysis
   m_EditorClassIdentifier: 
-  StateName: "\u9EBB\u75FA"
+  _stateName: "\u9EBB\u75FA"
   priority: 1
   release_trun: 3

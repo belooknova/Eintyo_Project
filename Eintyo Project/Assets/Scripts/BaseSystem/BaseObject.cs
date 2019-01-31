@@ -9,15 +9,12 @@ public abstract class BaseObject : MonoBehaviour {
     private Rigidbody2D rb2D;
     protected int dir = 0;
 
-    public float moveTime = 5.0f;
+    private StatusData stetus; //ステータス
+    private bool isMoving = false; //移動中かどうか
 
-    public StatusData stetus; //ステータス
-    public bool isMoving = false; //移動中かどうか
-    public float size; //タイルのサイズ(自動)
+    private float size; //タイルのサイズ(自動)
 
-    public bool isTurning = false; //ターン中かどうか調べる
- 
-    public LayerMask blockingLayer;
+    private LayerMask blockingLayer;
 
     //---アニメーション---
     protected Animator anim;
@@ -28,6 +25,10 @@ public abstract class BaseObject : MonoBehaviour {
         size = GameManager.instance.spSize;
 
         anim = GetComponent<Animator>();
+
+        //ブロックレイヤーを設定する
+        blockingLayer = LayerMask.NameToLayer("Block");
+
 
         //StetudDataを保証する
         stetus = GetComponent<StatusData>();
@@ -48,6 +49,14 @@ public abstract class BaseObject : MonoBehaviour {
         
     }
 
+    //今自分のターンの途中かどうかを返す
+
+    //自分のステータスを返す
+    public StatusData GetStatus()
+    {
+        return stetus;
+    }
+
     //自分のターンが回って来た時のUpDate()
     public virtual void TurnUpDate()
     {
@@ -59,8 +68,6 @@ public abstract class BaseObject : MonoBehaviour {
     {
 
     }
-
-
 
     //移動可能かを判断するメソッド　可能な場合はSmoothMovementへ
     protected bool Move(int xDir, int yDir, out RaycastHit2D hit)
@@ -91,7 +98,6 @@ public abstract class BaseObject : MonoBehaviour {
 
     }
   
-
     //現在地から目的地(引数end)へ移動するためのメソッド
     protected virtual IEnumerator SmoothMovement(Vector3 end)
     {
@@ -105,7 +111,7 @@ public abstract class BaseObject : MonoBehaviour {
         {
 
             transform.position -= moveDirection / moveSplit;// * Time.deltaTime;
-            Debug.Log((transform.position - end).normalized);
+            //Debug.Log((transform.position - end).normalized);
             yield return null;
             i += 1;
         }
@@ -141,11 +147,9 @@ public abstract class BaseObject : MonoBehaviour {
     /// </summary>
     protected virtual void AttemptAttack(StatusData data)
     {
-        //AttackSource attack = new AttackSource(stetus, data);
+        
 
     }
-
-
 
 
     //向き変換

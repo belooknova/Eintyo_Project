@@ -43,16 +43,18 @@ public class Skill_DB : ScriptableObject
     [SerializeField]
     private List<int> status;
 
+    //属性
+    [SerializeField]
+    private int attribution;
+
+
+
     private void OnEnable()
     {
-        this.skillDataManager = Resources.Load<SkillDataManager>("SkillDataManager");
-        Debug.Log(skillDataManager);
 
-        for(int i=0; i < skillDataManager.GetListLenght(); i++)
-        {
-            status.Add(0);
-        }
     }
+
+    
 
 
     public string GetName()
@@ -78,13 +80,19 @@ public class Skill_DB : ScriptableObject
     public class DB_Skill_Editor : Editor
     {
         bool foldout = false;
+        //StateDataManager SDM = Resources.Load("DataBase/StateDataManager", typeof(StateDataManager)) as StateDataManager;
 
         public override void OnInspectorGUI()
         {
-            base.OnInspectorGUI();
-            Skill_DB _DB = target as Skill_DB;
-            
+            serializedObject.Update();
 
+            //base.OnInspectorGUI();
+
+            //情報を読み込む
+            Skill_DB _DB = target as Skill_DB;
+            StateDataManager SDM = Resources.Load("DataBase/StateDataManager", typeof(StateDataManager)) as StateDataManager;
+            type_DB TypeDB = Resources.Load("DataBase/Type", typeof(type_DB)) as type_DB;
+            
             //ここから始まる
             //名前
             EditorGUILayout.LabelField("【スキル名】");
@@ -96,21 +104,30 @@ public class Skill_DB : ScriptableObject
             _DB.Consum_sp = EditorGUILayout.IntField("消費SP", _DB.Consum_sp);
             //EditorGUILayout.EndHorizontal();
 
+            //属性
+            _DB.attribution = EditorGUILayout.Popup("属性", _DB.attribution, TypeDB.Attributes_Array);
+
+            //計算式
             EditorGUILayout.LabelField("");
-            EditorGUILayout.LabelField("計算式");
+            EditorGUILayout.LabelField("【計算式】");
             _DB.formula = EditorGUILayout.TextField(_DB.formula);
 
-            _DB.accuracy = EditorGUILayout.IntField("命中率", _DB.accuracy);
+            //命中率
+            _DB.accuracy = EditorGUILayout.IntSlider("【命中率】", _DB.accuracy,0,100);
 
-            /*
-            if ( foldout = EditorGUILayout.Foldout(foldout, "デバフ/バフ"))
+            //デバフ
+            if ( foldout = EditorGUILayout.Foldout(foldout, "デバフ/バフの確率"))
             {
-                for(int i=0; i < _DB.skillDataManager.GetListLenght(); i++)
+                
+                for(int i=0; i < SDM.GetListLenght(); i++)
                 {
-                    _DB.status[i] = EditorGUILayout.IntField(_DB.skillDataManager.GetSkillLists()[i].SkillName, _DB.status[i]);
+                    _DB.status[i] = EditorGUILayout.IntSlider(SDM.GetStateLists()[i].StateName , _DB.status[i],0,100);
                 }
+                
             }
-            */
+            
+
+            serializedObject.ApplyModifiedProperties();
         }
     }
 

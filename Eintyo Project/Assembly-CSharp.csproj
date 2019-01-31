@@ -62,7 +62,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\BaseSystem\Attack.cs" />
-    <Compile Include="Assets\Scripts\BaseSystem\AttackSource.cs" />
     <Compile Include="Assets\Scripts\BaseSystem\BaseObject.cs" />
     <Compile Include="Assets\Scripts\BaseSystem\Enemy.cs" />
     <Compile Include="Assets\Scripts\BaseSystem\GameManager.cs" />
@@ -75,6 +74,7 @@
     <Compile Include="Assets\Scripts\DB\SkillDataManager.cs" />
     <Compile Include="Assets\Scripts\DB\State_DB.cs" />
     <Compile Include="Assets\Scripts\DB\StateDataManager.cs" />
+    <Compile Include="Assets\Scripts\DB\type_DB.cs" />
     <Compile Include="Assets\Scripts\Dungeon\DgDivision.cs" />
     <Compile Include="Assets\Scripts\Dungeon\DgGenerator.cs" />
     <Compile Include="Assets\Scripts\Dungeon\Layer2D.cs" />

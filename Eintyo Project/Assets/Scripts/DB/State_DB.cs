@@ -8,7 +8,7 @@ using System;
 public class State_DB : ScriptableObject
 {
     [SerializeField]
-    private string StateName; //状態の名前
+    private string _stateName; //状態の名前
 
     [SerializeField, Range(0, 10)]
     private int priority; //優先度
@@ -18,19 +18,19 @@ public class State_DB : ScriptableObject
 
     //--------------------------
 
-    public string GetName()
+    public string StateName
     {
-        return StateName;
+        get { return _stateName; }
     }
 
-    public int GetPrio()
+    public int GetPrio
     {
-        return priority;
+        get { return priority; }
     }
 
-    public int Getrelease()
+    public int Getrelease
     {
-        return release_trun;
+        get { return release_trun; }
     }
 
 }
