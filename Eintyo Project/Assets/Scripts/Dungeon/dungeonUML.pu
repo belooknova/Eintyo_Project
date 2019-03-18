@@ -1,0 +1,62 @@
+@startuml
+title CreateDungeon
+
+abstract class DgFactoryBase{
+    DgBase create(int SizeX, int SizeY)
+    {abstract} DgBase GenerateDungeon(int SizeX, int SizeY)
+}
+
+abstract class DgBase{
+    abstract void use()
+}
+
+class NatureDgFactory{
+
+}
+
+class NatureDg{
+
+}
+
+class DgCell{
+    Cell(int x, int y)
+    int X()
+    int Y()
+    Cell Up()
+    Cell Right()
+    Cell Down()
+    Cell Left()
+}
+
+class DgCreateRooms{
+    - IDgTile[,] map
+    DgCreateRooms()
+    void CreateRooms()
+}
+
+class DgCreatePass{
+    - IDgTile[,] map
+    DgCreatePass(IDgTile[,])
+    IDgTile[,] CreatePass()
+    - List<Cell> StoreCoodinateOptions(Cell nowCoordinates)
+    - bool CanCreatePass(DgCell assignedCoordinates)
+}
+
+interface IDgTile{
+    bool IsPass()
+    bool IsWall()
+}
+
+DgFactoryBase - DgBase : > creates
+NatureDgFactory - NatureDg : > creates
+DgFactoryBase <|--- NatureDgFactory
+DgBase <|-- NatureDg
+
+NatureDg -- DgCreatePass
+NatureDg - DgCreateRooms
+DgBase - IDgTile
+
+DgCreatePass - DgCell
+
+
+@enduml
