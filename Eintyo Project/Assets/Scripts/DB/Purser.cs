@@ -184,7 +184,7 @@ namespace FormulePurser
         }
 
         //statusを数値に書き換える
-        public string Conversion_Status(string s)
+        private string Conversion_Status(string s)
         {
             StatusData[] target = { Attacker, Receiver };
             string[] head = { "a.", "b." };

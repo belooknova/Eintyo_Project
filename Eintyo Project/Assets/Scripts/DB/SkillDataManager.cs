@@ -19,4 +19,5 @@ public class SkillDataManager : ScriptableObject
     {
         return skillLists.Count;
     }
+
 }

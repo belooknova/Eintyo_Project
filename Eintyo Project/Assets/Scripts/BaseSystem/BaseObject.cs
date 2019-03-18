@@ -1,20 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FormulePurser;
+using AttackMata;
+
 
 public abstract class BaseObject : MonoBehaviour {
 
     //コリダーとリジッドボディ取得
     private BoxCollider2D boxCollider;
     private Rigidbody2D rb2D;
-    protected int dir = 0;
 
-    private StatusData stetus; //ステータス
+    protected int dirx = 0, diry = 1;
+    public int DirX { get { return dirx; } }
+    public int DirY { get { return diry; } }
+    
+
+    private StatusData myStetus; //ステータス
     private bool isMoving = false; //移動中かどうか
 
     private float size; //タイルのサイズ(自動)
 
-    private LayerMask blockingLayer;
+    public LayerMask blockingLayer;
 
     //---アニメーション---
     protected Animator anim;
@@ -27,15 +34,15 @@ public abstract class BaseObject : MonoBehaviour {
         anim = GetComponent<Animator>();
 
         //ブロックレイヤーを設定する
-        blockingLayer = LayerMask.NameToLayer("Block");
+        //blockingLayer = LayerMask.NameToLayer("Block");
 
 
         //StetudDataを保証する
-        stetus = GetComponent<StatusData>();
-        if (stetus == null)
+        myStetus = GetComponent<StatusData>();
+        if (myStetus == null)
         {
             this.gameObject.AddComponent<StatusData>();
-            stetus = GetComponent<StatusData>();
+            myStetus = GetComponent<StatusData>();
         }
 
         //行動順リストに入れる
@@ -54,7 +61,7 @@ public abstract class BaseObject : MonoBehaviour {
     //自分のステータスを返す
     public StatusData GetStatus()
     {
-        return stetus;
+        return myStetus;
     }
 
     //自分のターンが回って来た時のUpDate()
@@ -73,7 +80,6 @@ public abstract class BaseObject : MonoBehaviour {
     protected bool Move(int xDir, int yDir, out RaycastHit2D hit)
     {
         //タイルの幅取得
-        
 
     //現在地を取得
         Vector2 start = transform.position;
@@ -83,7 +89,8 @@ public abstract class BaseObject : MonoBehaviour {
         boxCollider.enabled = false;
         //現在地と目的地との間にblockingLayerのついたオブジェクトが無いか判定
         hit = Physics2D.Linecast(start, end, blockingLayer);
- 
+        //Debug.DrawRay(start, end, Color.red);
+
         //Colliderを有効に戻す
         boxCollider.enabled = true;
         //何も無ければSmoothMovementへ遷移し移動処理
@@ -121,18 +128,14 @@ public abstract class BaseObject : MonoBehaviour {
 
     }
 
-
     ///移動を試みるメソッド
       //virtual : 継承されるメソッドに付ける修飾子
       //<T>：ジェネリック機能　型を決めておかず、後から指定する
-    protected virtual void AttemptMove(int xDir, int yDir)
+    protected virtual void AttemptMove()
     {
-        //動いた時に遷移する
-        actorDir(xDir, yDir);
-
         RaycastHit2D hit;
         //Moveメソッド実行 戻り値がtrueなら移動成功、falseなら移動失敗
-        bool canMove = Move(xDir, yDir, out hit);
+        bool canMove = Move(dirx, diry, out hit);
         //Debug.Log("受け付けました");
         //Moveメソッドで確認した障害物が何も無ければメソッド終了
         if (hit.transform == null)
@@ -143,39 +146,69 @@ public abstract class BaseObject : MonoBehaviour {
     }
 
     /// <summary>
-    /// 攻撃メソッド
+    /// 攻撃を試みる
     /// </summary>
-    protected virtual void AttemptAttack(StatusData data)
+    protected virtual void AttemptSimpleAttack()
     {
-        
+        StatusData target;
+        if(TouchTargeter(out target))
+        {
+            AttackExe(target, 0);
+        }
 
     }
 
-
-    //向き変換
-    protected void actorDir(int x, int y)
+    //通常攻撃、対象取得
+    protected virtual bool TouchTargeter(out StatusData data)
     {
-        if (x == 0 && y < 0)
-        {
-            this.dir = 0;
-        }
+        data = null;
+        Vector2 start = transform.position;
+        Vector2 end = start + new Vector2(size * dirx, size * diry);
+        boxCollider.enabled = false;
+        //現在地と目的地との間にblockingLayerのついたオブジェクトが無いか判定
+        RaycastHit2D hit = Physics2D.Linecast(start, end, blockingLayer);
+        //Colliderを有効に戻す
+        boxCollider.enabled = true;
 
-        if (x > 0 && y == 0)
-        {
-            this.dir = 1;
-        }
+        if (hit.transform == null) return false;
 
-        if (x == 0 && y > 0)
+        StatusData buff = hit.collider.gameObject.GetComponent<StatusData>();
+        Debug.Log(buff);
+        if (buff != null)
         {
-            this.dir = 2;
+            data = buff;
+            return true;
         }
+        return false;
+    }
 
-        if (x < 0 && y == 0)
+
+
+    //攻撃を実行
+    protected void AttackExe(StatusData target, int index)
+    {
+        AttackSource source = new AttackSource(myStetus, target, index);
+
+        //扱うスキルを取得する
+        var statelist = source.StatusJudge();
+
+        //---実行---
+
+        //ダメージを与える
+        target.Recieve_Damage(source.DamageEval());
+
+        //状態異常を与える
+        foreach(int key in statelist.Keys)
         {
-            this.dir = 3;
+            //確率判定
+            if(Random.Range(1,100) <= statelist[key])
+            {
+                target.Recieve_State(key);
+                GameManager.instance.StatusList[key].InitialOperate(target);
+            }
         }
-        
+        return;
+    }
 
-    } 
 
 }

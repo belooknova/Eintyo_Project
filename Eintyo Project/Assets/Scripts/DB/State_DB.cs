@@ -33,4 +33,16 @@ public class State_DB : ScriptableObject
         get { return release_trun; }
     }
 
+    //この状態になったときに呼び出されるメソッド
+    public void InitialOperate(StatusData target)
+    {
+
+    }
+
+    //この状態が終了するときに呼び出されるメソッド
+    public void EndOperate(StatusData target)
+    {
+
+    }
+
 }

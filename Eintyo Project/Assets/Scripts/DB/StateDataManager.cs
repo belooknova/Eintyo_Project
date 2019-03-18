@@ -14,6 +14,18 @@ public class StateDataManager : ScriptableObject
         return stateLists;
     }
 
+    //ポップアップ用の配列を取得
+    public string[] GetNameArray()
+    {
+        var list = new List<string>();
+        foreach(State_DB s in stateLists)
+        {
+            list.Add(s.StateName);
+        }
+        return list.ToArray();
+
+    }
+
     //リストの長さを取得する
     public int GetListLenght()
     {

@@ -13,11 +13,11 @@ public class Enemy : BaseObject {
     public override void TurnUpDate()
     {
         base.TurnUpDate();
-        int hor = Random.Range(-1, 1);
-        int ver = Random.Range(-1, 1);
+        //dirx = Random.Range(-1, 1);
+        //diry = Random.Range(-1, 1);
 
         //移動を試みる
-        AttemptMove(hor, ver);
+        //AttemptMove();
     }
 
     public override void Next_status()

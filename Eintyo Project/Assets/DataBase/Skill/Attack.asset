@@ -13,8 +13,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillDataManager: {fileID: 0}
   SkillName: "\u653B\u6483"
-  Consum_hp: 15
-  Consum_sp: 19
+  Consum_hp: 0
+  Consum_sp: 0
   formula: a.atk * 4 + b.def * 2
   accuracy: 100
-  status: 0000000000000000000000000000000000000000
+  status: []
+  attribution: 0

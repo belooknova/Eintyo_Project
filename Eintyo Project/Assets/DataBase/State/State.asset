@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 208ce74bf7a50234885f9579bb0a6e95, type: 3}
+  m_Name: State
+  m_EditorClassIdentifier: 
+  _stateName: "\u4E0A\u7530"
+  priority: 0
+  release_trun: 3

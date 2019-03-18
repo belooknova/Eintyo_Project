@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 285245f8dc0de9849807c4dd4c5baef8, type: 3}
+  m_Name: AbilityValue
+  m_EditorClassIdentifier: Assembly-CSharp::AbilityValue_DB
+  AbyNameJ:
+  - HP
+  - "\u6700\u5927HP"
+  - SP
+  - "\u6700\u5927SP"
+  - "\u7A7A\u8179\u5EA6"
+  - "\u6700\u5927\u7A7A\u8179\u5EA6"
+  - "\u653B\u6483\u529B"
+  - "\u9632\u5FA1\u529B"
+  - "\u56DE\u907F\u7387"
+  - "\u547D\u4E2D\u7387"
+  - "\u904B"
+  - "\u706B\u8010\u6027"
+  - "\u6C34\u8010\u6027"
+  - "\u6728\u8010\u6027"
+  - "\u91D1\u8010\u6027"
+  - "\u571F\u8010\u6027"
+  - "\u706B\u653B"
+  - "\u6C34\u529F"
+  - "\u6728\u529F"
+  - "\u91D1\u529F"
+  - "\u571F\u529F"
+  - "\u5F71\u5236\u5FA1"
+  AbyName:
+  - hp
+  - mhp
+  - sp
+  - msp
+  - hun
+  - mhn
+  - atk
+  - def
+  - eva
+  - acc
+  - luk
+  - firr
+  - wtrr
+  - wodr
+  - mtlr
+  - solr
+  - firb
+  - wtrb
+  - wodr
+  - mtlb
+  - solb
+  - shd

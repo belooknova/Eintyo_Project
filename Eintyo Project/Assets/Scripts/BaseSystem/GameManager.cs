@@ -7,10 +7,23 @@ public class GameManager : MonoBehaviour {
     //アクセスできる変数
     public static GameManager instance = null;
     public StatusData player_stetus;
-    public float spSize = 1;
+    public float spSize = 1.28f;
     public Player player; //プレイヤーのクラス
     public List<GameObject> ActorList = new List<GameObject>();
 
+    //----用語----
+    public string[] AbyNameJ;
+    public string[] AbyName;
+    private string[] _typeList;
+
+    public string[] TypeList { get { return _typeList; } }
+
+    //----データベース----
+    private List<Skill_DB> _skillsList;
+    private List<State_DB> _statusList;
+
+    public List<Skill_DB> SkillList { get { return _skillsList; } }
+    public List<State_DB> StatusList { get { return _statusList; } }
 
     private string stateTrans = "Input";
 
@@ -31,15 +44,17 @@ public class GameManager : MonoBehaviour {
 
         DontDestroyOnLoad(gameObject);
 
+        //collDataBase();//データベースを呼び出す
     }
 
     // Use this for initialization
     void Start () {
-		
-	}
+        
+        CollDataBase();
+    }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
 
         //◇入力状態
@@ -51,10 +66,21 @@ public class GameManager : MonoBehaviour {
             horizontal = (int)Input.GetAxisRaw("Horizontal");
             vertical = (int)Input.GetAxisRaw("Vertical");
 
+            bool[] keyInput = new bool[3];
+            keyInput[0] = Input.GetKeyDown(KeyCode.Z);
+
+            player.Key_Set(keyInput);
+
+            if (keyInput[0])
+            {
+                stateTrans = "Player";
+                Debug.Log("SimpleAttack");
+            }
 
             player.Movekey_Set(horizontal, vertical);
             if (horizontal != 0 || vertical != 0)
             {
+                //Debug.Log("hor: " + horizontal + "  ver: " + vertical);
                 //player.Movekey_Set(horizontal, vertical);
                 stateTrans = "Player";
             }
@@ -148,6 +174,23 @@ public class GameManager : MonoBehaviour {
         return this.BD_skills;
     }
 
+    SkillDataManager DataManager;
+    Skill_DB skill_DB;
+
+    //データベースの読み込み
+    private void CollDataBase()
+    {
+        SkillDataManager SKDM = Resources.Load("DataBase/SkillDataManager", typeof(SkillDataManager)) as SkillDataManager;
+        StateDataManager STDM = Resources.Load("DataBase/StateDataManager", typeof(StateDataManager)) as StateDataManager;
+        type_DB TDB = Resources.Load("DataBase/Type", typeof(type_DB)) as type_DB;
+
+        _typeList = TDB.Attributes_Array;
+        _skillsList = SKDM.GetSkillLists();
+        _statusList = STDM.GetStateLists();
+
+        //skill_DB = DataManager.GetSkillLists()[0];
+        
+    }
 
 }
 
