@@ -10,30 +10,40 @@ abstract class DgBase : MonoBehaviour
 {
     [SerializeField] protected GameObject floorTile;
     [SerializeField] protected GameObject frontWallTile;
-
-    protected int sizeX;
-    protected int sizeY;
     
-    protected DgTileBase[,] map;
-    abstract public void Use();
+    protected DgMap map;
+
+    //部屋の最大の大きさ
+    protected int roomMaxSize;
+
+    /// <summary>
+    /// マップを作成する
+    /// </summary>
+    /// <param name="sizeX">Ｘ方向のサイズ</param>
+    /// <param name="sizeY">Ｙ方向のサイズ</param>
+    abstract public void Use(int sizeX, int sizeY);
 
     /// <summary>
     /// mapに格納された情報を基に実際にダンジョンを描画する
     /// </summary>
-    virtual protected void DrawMap(){
-        for (int i = 0; i < sizeY; i++)
+    virtual public void DrawMap(){
+        for (int y = 0; y < map.SizeY; y++)
         {
-            for (int j = 0; j < sizeX; j++)
+            for (int x = 0; x < map.SizeX; x++)
             {
-                map[sizeY, sizeX].DrawTile(j, i);
-                if (map[j, i] is DgFloorTile)
+                //mapに何も登録されていないならば
+                if (map.GetTileInAssignedCoordinates(x,y)==null)
                 {
-                    Instantiate(floorTile, new Vector3(j, i, 0), Quaternion.identity);
-                }else{
-                    if (map[j, i] is DgFl)
-                    {
-                        Instantiate(floorTile, new Vector3(j, i, 0), Quaternion.identity);
-                    }
+                    //何もしない
+
+                }else if (map.GetTileInAssignedCoordinates(x, y) is DgFloorTile){
+                    //床タイルが登録されている
+                    GameObject obj = Instantiate(floorTile, new Vector3(x*1.28f, y*1.28f, 0), Quaternion.identity);
+                    obj.transform.localScale = new Vector3(4,4,4);
+                }else if (map.GetTileInAssignedCoordinates(x,y) is DgFrontWallTile){
+                    //前側の壁が登録されている
+                    GameObject obj = Instantiate(frontWallTile, new Vector3(x*1.28f, y*1.28f, 0), Quaternion.identity);
+                    obj.transform.localScale = new Vector3(4,4,4);
                 }
             }
         }

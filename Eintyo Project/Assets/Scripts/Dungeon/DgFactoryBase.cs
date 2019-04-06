@@ -7,6 +7,12 @@ namespace Dungeon
 {
 abstract class DgFactoryBase : MonoBehaviour {
 
+    protected DgBase dgBase;
+
+    protected void Start() {
+        dgBase = GetComponent<DgBase>();
+    }
+
     public DgBase create(int SizeX, int SizeY){
         DgBase dungeonBase = createDungeon(SizeX, SizeY);
 

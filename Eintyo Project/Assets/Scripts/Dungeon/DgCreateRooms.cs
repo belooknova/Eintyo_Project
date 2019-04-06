@@ -1,13 +1,13 @@
 namespace Dungeon{
     class DgCreateRooms{
 
-        private DgTileBase[,] map;
+        private DgMap map;
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
         /// <param name="map"></param>
-        public DgCreateRooms(DgTileBase[,] map){
+        public DgCreateRooms(DgMap map){
             this.map = map;
         }
         
@@ -15,7 +15,7 @@ namespace Dungeon{
         /// 部屋を作る
         /// </summary>
         /// <returns>部屋情報を追加した二次元配列</returns>
-        public DgTileBase[,] CreateRooms(){
+        public DgMap CreateRooms(){
             return map;
         }
     }

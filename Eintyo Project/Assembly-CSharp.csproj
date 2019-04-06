@@ -64,9 +64,12 @@
      <Compile Include="Assets\Scripts\Dungeon\DgCreateRooms.cs" />
      <Compile Include="Assets\Scripts\Dungeon\DgDivision.cs" />
      <Compile Include="Assets\Scripts\Dungeon\DgFactoryBase.cs" />
+     <Compile Include="Assets\Scripts\Dungeon\DgMap.cs" />
      <Compile Include="Assets\Scripts\Dungeon\DgStyle\NatureDg.cs" />
      <Compile Include="Assets\Scripts\Dungeon\DgStyle\NatureDgFactory.cs" />
-     <Compile Include="Assets\Scripts\Dungeon\IDgTile.cs" />
+     <Compile Include="Assets\Scripts\Dungeon\DgTiles\DgFloorTile.cs" />
+     <Compile Include="Assets\Scripts\Dungeon\DgTiles\DgFrontWallTile.cs" />
+     <Compile Include="Assets\Scripts\Dungeon\DgTiles\DgTileBase.cs" />
      <Compile Include="Assets\Scripts\Dungeon\Layer2D.cs" />
      <None Include="Assets\Scripts\Dungeon\ダンジョン.txt" />
  <Reference Include="UnityEditor.StandardEvents">

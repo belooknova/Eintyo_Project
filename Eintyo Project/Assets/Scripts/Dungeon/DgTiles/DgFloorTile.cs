@@ -9,8 +9,5 @@ class DgFloorTile : DgTileBase{
         return false;
     }
 
-    public override void DrawTile(int x, int y){
-
-    }
 }
 }
