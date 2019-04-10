@@ -124,6 +124,7 @@ public class testList : MonoBehaviour {
 
             //縦の大きさを変更
             reorderableList.elementHeight = 68;
+            
             //属性の変更
             reorderableList.drawElementCallback =
               (rect, index, isActive, isFocused) => {

@@ -66,24 +66,34 @@ public class GameManager : MonoBehaviour {
             horizontal = (int)Input.GetAxisRaw("Horizontal");
             vertical = (int)Input.GetAxisRaw("Vertical");
 
-            bool[] keyInput = new bool[3];
-            keyInput[0] = Input.GetKeyDown(KeyCode.Z);
+            //---ボタンの設定--- --- --- --- --- --- --- --- --- --- ---
+            bool WALK = (horizontal != 0 || vertical != 0);
+            player.Set_Walk_Botton(WALK);
 
-            player.Key_Set(keyInput);
+            bool HOLD = Input.GetButton("Hold");
+            player.Set_Hold_Botton(HOLD);
 
-            if (keyInput[0])
+            bool ATTACK = Input.GetButtonDown("OK");
+            player.Set_Attack_Botton(ATTACK);
+            //--- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
+            //Debug.Log("hor: " + horizontal + "  ver: " + vertical);
+
+            //移動する
+            if (WALK)
             {
-                stateTrans = "Player";
-                Debug.Log("SimpleAttack");
-            }
+                player.Movekey_Set(horizontal, vertical);
 
-            player.Movekey_Set(horizontal, vertical);
-            if (horizontal != 0 || vertical != 0)
-            {
                 //Debug.Log("hor: " + horizontal + "  ver: " + vertical);
-                //player.Movekey_Set(horizontal, vertical);
                 stateTrans = "Player";
             }
+
+            //攻撃する
+            if (ATTACK)
+            {
+                stateTrans = "Player";
+            }
+
 
 
         }

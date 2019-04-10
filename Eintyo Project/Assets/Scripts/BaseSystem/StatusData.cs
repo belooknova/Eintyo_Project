@@ -39,6 +39,9 @@ public class StatusData : MonoBehaviour {
                                                                 new List<int>{0 },      /*影制御*/
     };
 
+
+
+
     [SerializeField]
     private string[] AbyName = { "hp", "mhp", "sp", "msp", "hun", "mhn", "atk", "def", "agi", "eva", "acc", "luk", "firr", "wtrr", "wodr", "mtlr", "solr", "fira", "wtra", "woda", "mtla", "sola", "sdw" };
 
@@ -182,7 +185,6 @@ public class StatusData : MonoBehaviour {
 
         for (int i=0; i < AbyValue.Count; i++)
         {
-            Debug.Log(AbyName[0]);
             outdict.Add(AbyName[i], GetAbilitySum(AbyValue[i]));
         }
 

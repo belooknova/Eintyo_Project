@@ -19,3 +19,4 @@ MonoBehaviour:
   accuracy: 100
   status: []
   attribution: 0
+  targetId: 0

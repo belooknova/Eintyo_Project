@@ -1,10 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Player : BaseObject {
-    int hor = 0 , ver = 0;
-    bool[] KeyInput = new bool[3];
+
+    [Flags]
+    private enum InputFlag
+    {
+        HOLD = 1 << 0,
+        ATTACK = 1 << 1,
+        WALK = 1<< 2,
+    }
+
+    int hor = 0, ver = 0;
+    InputFlag input = 0;
+
 
     // Use this for initialization
     protected override void Start() {
@@ -41,26 +52,25 @@ public class Player : BaseObject {
     {
         base.TurnUpDate();
 
-        //キー入力
-        if (KeyInput[0])
-        {
-            AttemptSimpleAttack();
-            return;
-        }
-
-
         //移動
-        if (hor != 0 || ver != 0)
+        if((input & InputFlag.WALK) == InputFlag.WALK)
         {
-            dirx = hor;
-            diry = ver;
-            
-            if (!Input.GetKey(KeyCode.V))
+            if (!((input & InputFlag.HOLD)==InputFlag.HOLD))
             {
+                Debug.Log("NOThold");
                 AttemptMove();
+                return;
             }
         }
-        
+
+        //通常攻撃
+        if ((input & InputFlag.ATTACK) == InputFlag.ATTACK)
+        {
+            AttemptSimpleAttack();
+        }
+
+
+
 
     }
 
@@ -79,15 +89,37 @@ public class Player : BaseObject {
     // horizontal入力とvertical入力の設定
     public void Movekey_Set(int hor, int ver)
     {
-        this.hor = hor;
-        this.ver = ver;
+        dirx = hor;
+        diry = ver;
     }
 
-    //キー入力の設定
-    public void Key_Set(bool[] keyi)
+    //---キー入力の設定---
+
+    //ホールドボタン
+    public void Set_Hold_Botton(bool flag)
     {
-        KeyInput = keyi;
+        if (flag)
+        { input |= InputFlag.HOLD; }
+        else
+        { input &= ~InputFlag.HOLD; } 
     }
 
+    //攻撃ボタン
+    public void Set_Attack_Botton(bool flag)
+    {
+        if (flag)
+        { input |= InputFlag.ATTACK; }
+        else
+        { input &= ~InputFlag.ATTACK; }
+    }
+
+    //攻撃ボタン
+    public void Set_Walk_Botton(bool flag)
+    {
+        if (flag)
+        { input |= InputFlag.WALK; }
+        else
+        { input &= ~InputFlag.WALK; }
+    }
 
 }

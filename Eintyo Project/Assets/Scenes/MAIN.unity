@@ -473,14 +473,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 1144000304}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e03f24164790ef245803a112235898ab, type: 3}
+  m_Script: {fileID: 11500000, guid: 07a9cb76be7ed974bab94389f7cc19b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characters:
-  - icon: {fileID: 0}
-    name: 
-    hp: 0
-    power: 0
+  priority: 0
+  _speed: 1
+  AbyName:
+  - hp
+  - mhp
+  - sp
+  - msp
+  - hun
+  - mhn
+  - atk
+  - def
+  - agi
+  - eva
+  - acc
+  - luk
+  - firr
+  - wtrr
+  - wodr
+  - mtlr
+  - solr
+  - fira
+  - wtra
+  - woda
+  - mtla
+  - sola
+  - sdw
+  StateList: 
 --- !u!4 &1144000306
 Transform:
   m_ObjectHideFlags: 0
@@ -722,3 +744,52 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6bd55dcac392d6541894964a29ae0201, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &2052605821
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2052605823}
+  - component: {fileID: 2052605822}
+  m_Layer: 0
+  m_Name: GameObject (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2052605822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2052605821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e03f24164790ef245803a112235898ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characters:
+  - icon: {fileID: 0}
+    name: 
+    hp: 0
+    power: 0
+  - icon: {fileID: 0}
+    name: 
+    hp: 0
+    power: 0
+--- !u!4 &2052605823
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2052605821}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.5627047, y: 0.26234445, z: 0.103515625}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

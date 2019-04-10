@@ -32,7 +32,6 @@ namespace FormulePurser
             Branch_Node(root); //分木を生成する
 
             //エラーコードフラグが立っている時はエラーを吐く
-            Debug.Log(ErrerCode);
             int resultNum = Num_Convertor(root);
 
             if (ErrerCode)

@@ -150,6 +150,7 @@ public abstract class BaseObject : MonoBehaviour {
     /// </summary>
     protected virtual void AttemptSimpleAttack()
     {
+        Debug.Log("[攻撃を試みる]");
         StatusData target;
         if(TouchTargeter(out target))
         {
@@ -179,6 +180,7 @@ public abstract class BaseObject : MonoBehaviour {
             data = buff;
             return true;
         }
+        
         return false;
     }
 
