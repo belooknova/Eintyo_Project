@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using EintyoSystem;
 using FormulePurser;
 using AttackMata;
 
@@ -16,15 +17,26 @@ public abstract class BaseObject : MonoBehaviour {
     public int DirY { get { return diry; } }
     
 
-    private StatusData myStetus; //ステータス
+    private StatusData myStatus; //ステータス
     private bool isMoving = false; //移動中かどうか
 
     private float size; //タイルのサイズ(自動)
 
-    public LayerMask blockingLayer;
+    [SerializeField]
+    private LayerMask blockingLayer;
+    [SerializeField]
+    private LayerMask ItemLayer;
 
     //---アニメーション---
     protected Animator anim;
+
+
+    //--- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+    public StatusData MyStatus
+    {
+        get { return myStatus; }
+    }
+
 
     protected virtual void Start () {
         boxCollider = GetComponent<BoxCollider2D>();
@@ -38,11 +50,11 @@ public abstract class BaseObject : MonoBehaviour {
 
 
         //StetudDataを保証する
-        myStetus = GetComponent<StatusData>();
-        if (myStetus == null)
+        myStatus = GetComponent<StatusData>();
+        if (myStatus == null)
         {
             this.gameObject.AddComponent<StatusData>();
-            myStetus = GetComponent<StatusData>();
+            myStatus = GetComponent<StatusData>();
         }
 
         //行動順リストに入れる
@@ -57,11 +69,10 @@ public abstract class BaseObject : MonoBehaviour {
     }
 
     //今自分のターンの途中かどうかを返す
-
     //自分のステータスを返す
     public StatusData GetStatus()
     {
-        return myStetus;
+        return myStatus;
     }
 
     //自分のターンが回って来た時のUpDate()
@@ -75,6 +86,8 @@ public abstract class BaseObject : MonoBehaviour {
     {
 
     }
+
+    #region MOVE_METHOD
 
     //移動可能かを判断するメソッド　可能な場合はSmoothMovementへ
     protected bool Move(int xDir, int yDir, out RaycastHit2D hit)
@@ -125,7 +138,7 @@ public abstract class BaseObject : MonoBehaviour {
         isMoving = false;
 
         Next_status();
-
+        ChackStep();
     }
 
     ///移動を試みるメソッド
@@ -138,13 +151,15 @@ public abstract class BaseObject : MonoBehaviour {
         bool canMove = Move(dirx, diry, out hit);
         //Debug.Log("受け付けました");
         //Moveメソッドで確認した障害物が何も無ければメソッド終了
-        if (hit.transform == null)
-        {
-            return;
-        }
+        if (hit.transform == null) { return; }
+
+        //アイテム回収判定
         
+
     }
 
+    #endregion
+    #region ATTACK_METHOD
     /// <summary>
     /// 攻撃を試みる
     /// </summary>
@@ -189,7 +204,7 @@ public abstract class BaseObject : MonoBehaviour {
     //攻撃を実行
     protected void AttackExe(StatusData target, int index)
     {
-        AttackSource source = new AttackSource(myStetus, target, index);
+        AttackSource source = new AttackSource(myStatus, target, index);
 
         //扱うスキルを取得する
         var statelist = source.StatusJudge();
@@ -211,6 +226,29 @@ public abstract class BaseObject : MonoBehaviour {
         }
         return;
     }
+    #endregion
 
+    //踏んだオブジェクトを確認する。
+     private bool ChackStep()
+    {
+        Vector2 poss = transform.position;
+        boxCollider.enabled = false;
+        RaycastHit2D hit = Physics2D.Linecast(poss, poss, ItemLayer);
+        boxCollider.enabled = true;
+
+        //何も取得していない場合ははじく
+        if (hit.transform == null)
+            return false;
+        //取得したものがUnderStepObjectじゃなかったらはじく
+        UnderStepObject under = hit.collider.gameObject.GetComponent<UnderStepObject>();
+
+        if (under == null) return false;
+
+        //イベントの実行
+        under.StepEvent(this);
+
+
+        return true;
+    }
 
 }

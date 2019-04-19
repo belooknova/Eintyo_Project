@@ -14,7 +14,7 @@ TagManager:
   - 
   - 
   - Block
-  - 
+  - Item
   - 
   - 
   - 
@@ -40,4 +40,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: underLayer
+    uniqueID: 1575775779
+    locked: 0
+  - name: centerLayer
+    uniqueID: 1576118589
+    locked: 0
+  - name: upLayer
+    uniqueID: 2442916751
     locked: 0

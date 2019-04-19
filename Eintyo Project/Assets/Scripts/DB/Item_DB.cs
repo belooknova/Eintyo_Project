@@ -11,7 +11,7 @@ using UnityEditorInternal;
 
 
 [Serializable]
-[CreateAssetMenu(fileName = "ItemDaata", menuName = "DataBase/CreateItemData")]
+[CreateAssetMenu(fileName = "ItemDaata", menuName = "DataBase/Create_ItemData")]
 public class Item_DB : ScriptableObject
 {
     [SerializeField]
@@ -36,6 +36,20 @@ public class Item_DB : ScriptableObject
 
     [SerializeField]
     private List<AddBuffSource> passive = new List<AddBuffSource>();
+
+    [SerializeField]
+    private int usingType; //使用タイプ
+
+    //--- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+    public string MataName { get { return mataName; } }
+    public string UnknownName { get { return unknownName; } }
+    public string Description { get { return description; } }
+    public int Cost { get { return cost; } }
+    public int ItemType { get { return itemType; } }
+    public List<AddBuffSource> AddBuffs { get { return addBuffs; } }
+    public List<AddBuffSource> Passive { get { return passive; } }
+
+
 
 #if UNITY_EDITOR
     /*-----inspector拡張コード-----*/
@@ -70,20 +84,27 @@ public class Item_DB : ScriptableObject
                 var labelRect = new Rect(indexpRect)
                 {
                     y = indexpRect.y + EditorGUIUtility.singleLineHeight + 2,
-                    width = position.width
+                    width = 32,
                 };
                 var indexRect = new Rect(indexpRect)
                 {
                     x = indexpRect.width +48,
                     width = indexpRect.width - 32
                 };
-                var aperRect = new Rect(labelRect)
+                var label2Rect = new Rect(labelRect)
                 {
+                    x = labelRect.x + labelRect.width + 1,
                     width = 32,
                 };
-                var aconRect = new Rect(aperRect)
+                var label3Rect = new Rect(label2Rect)
                 {
-                    x = 92
+                    x = label2Rect.x + label2Rect.width + 1,
+                    width = 32,
+                };
+                var label4Rect = new Rect(label3Rect)
+                {
+                    x = label3Rect.x + label3Rect.width + 1,
+                    width = 64,
                 };
 
                 //------各プロパティーの SerializedProperty を求める------
@@ -96,7 +117,7 @@ public class Item_DB : ScriptableObject
                 //------各プロパティーの GUI を描画------
 
                 //バーに表示する内容
-                string[] BarLabel = { "能力値", "状態付与", "状態解除" };
+                string[] BarLabel = { "能力値増加", "能力値減少", "状態付与", "状態解除" };
                 typeProperty.intValue = EditorGUI.Popup(typeRect, typeProperty.intValue, BarLabel);
 
                 if (typeProperty.intValue == 0)
@@ -105,10 +126,24 @@ public class Item_DB : ScriptableObject
                     EditorGUIUtility.labelWidth = 40;
                     indexProperty.intValue = EditorGUI.IntField(indexRect, "能力ID", indexProperty.intValue);
                     EditorGUIUtility.labelWidth = 30;
-                    EditorGUI.LabelField(labelRect, "           % +             増加させる");
-                    aperProperty.intValue = EditorGUI.IntField(aperRect, aperProperty.intValue);
-                    aconProperty.intValue = EditorGUI.IntField(aconRect, aconProperty.intValue);
+                    EditorGUI.LabelField(label2Rect, "% +");
+                    aperProperty.intValue = EditorGUI.IntField(labelRect, aperProperty.intValue);
+                    aconProperty.intValue = EditorGUI.IntField(label3Rect, aconProperty.intValue);
+                    EditorGUI.LabelField(label4Rect, "増加させる");
                 }
+
+                if (typeProperty.intValue == 1)
+                {
+                    indexProperty.intValue = EditorGUI.Popup(indexpRect, indexProperty.intValue, AVD.GetAbyNameJ());
+                    EditorGUIUtility.labelWidth = 40;
+                    indexProperty.intValue = EditorGUI.IntField(indexRect, "能力ID", indexProperty.intValue);
+                    EditorGUIUtility.labelWidth = 30;
+                    EditorGUI.LabelField(label2Rect, "% +");
+                    aperProperty.intValue = EditorGUI.IntField(labelRect, aperProperty.intValue);
+                    aconProperty.intValue = EditorGUI.IntField(label3Rect, aconProperty.intValue);
+                    EditorGUI.LabelField(label4Rect, "減少させる");
+                }
+
 
             }
         }
@@ -159,17 +194,22 @@ public class Item_DB : ScriptableObject
         {
             serializedObject.Update();
             //base.OnInspectorGUI();
-            
+            //return;
 
             EditorGUILayout.LabelField("【アイテム名】");
             _DB.mataName = EditorGUILayout.TextField(_DB.mataName);
+            string[] useTypeLabel = { "いつでも使用可能", "戦闘時のみ使用可能", "非戦闘時のみ使用可能","使用不可" };
+            _DB.usingType = EditorGUILayout.Popup(_DB.usingType, useTypeLabel);
+
             _DB.cost = EditorGUILayout.IntField("所持コスト", _DB.cost);
-            _DB.unknownName = EditorGUILayout.TextField("未鑑定時の名前", _DB.unknownName);
+            _DB.unknownName = EditorGUILayout.TextField("未鑑定時の名前(名詞)", _DB.unknownName);
 
             EditorGUILayout.Space();
 
             EditorGUILayout.LabelField("説明");
             _DB.description = EditorGUILayout.TextArea(_DB.description, GUILayout.Height(50));
+
+            
 
             //ReorderableListの表示
             if (foldout = EditorGUILayout.Foldout(foldout, "使用時の効果"))

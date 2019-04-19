@@ -20,7 +20,7 @@ public class StateParam
 }
 
 [Serializable]
-[CreateAssetMenu(fileName = "Skill", menuName = "DataBase/CreateSkill")]
+[CreateAssetMenu(fileName = "Skill", menuName = "DataBase/Create_Skill")]
 public class Skill_DB : ScriptableObject
 {
     //

@@ -6,7 +6,7 @@ using UnityEditor;
 #endif
 
 [Serializable]
-[CreateAssetMenu(fileName = "Type", menuName = "DataBase/CreateType")]
+[CreateAssetMenu(fileName = "Type", menuName = "DataBase/Create_Type")]
 public class type_DB : ScriptableObject
 {
     //属性名

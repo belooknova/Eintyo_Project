@@ -118,14 +118,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 430f8ee81f0b3b241a2caf5533aa1c59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveTime: 2
-  stetus: {fileID: 0}
-  isMoving: 0
-  size: 0
-  isTurning: 0
   blockingLayer:
     serializedVersion: 2
     m_Bits: 256
+  ItemLayer:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!212 &212900145304579968
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -158,8 +156,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1576118589
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 3e9d09e7d085dfc4389cb03d6c3ff9b3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

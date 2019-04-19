@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "StateDataManager", menuName = "DataBase/CreateStateDataBase")]
+[CreateAssetMenu(fileName = "StateDataManager", menuName = "DataBase/Create_StateDataBase")]
 public class StateDataManager : ScriptableObject
 {
     [SerializeField]

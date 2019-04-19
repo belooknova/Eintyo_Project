@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 [Serializable]
-[CreateAssetMenu(fileName = "State", menuName = "DataBase/CreateState")]
+[CreateAssetMenu(fileName = "State", menuName = "DataBase/Create_State")]
 public class State_DB : ScriptableObject
 {
     [SerializeField]

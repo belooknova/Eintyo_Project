@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Normal_herb
   m_EditorClassIdentifier: 
   mataName: "\u666E\u901A\u306E\u85AC\u8349"
-  unknownName: "\u3057\u306A\u3057\u306A\u306E\u8349"
+  unknownName: "\u8349"
   description: 
   cost: 1
   itemType: 0
@@ -22,4 +22,10 @@ MonoBehaviour:
     addPercent: 0
     addConstant: 50
     percent: 0
+  - type: 0
+    index: 4
+    addPercent: 0
+    addConstant: 1
+    percent: 0
   passive: []
+  usingType: 0
