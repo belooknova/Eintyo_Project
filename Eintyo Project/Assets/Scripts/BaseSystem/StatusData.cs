@@ -16,37 +16,38 @@ public class StatusData : MonoBehaviour {
 
     [SerializeField]
     //private List<int> AbyValue = new List<int>{ 20, 20, 10, 10, 100, 100, 5, 5, 5, 10, 95, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 };
-    private List<List<int>> AbyValue = new List<List<int>> {    new List<int>{20 },     /*体力(要素1以上は使用禁止)*/
-                                                                new List<int>{20 },     /*最大体力*/
-                                                                new List<int>{10 },     /*スペルポイント(要素1以上は使用禁止)*/
-                                                                new List<int>{10 },     /*最大スペルポイント*/
-                                                                new List<int>{100 },    /*空腹度(要素1以上は使用禁止)*/
-                                                                new List<int>{100 },    /*最大空腹度*/
-                                                                new List<int>{5 },      /*攻撃力*/
-                                                                new List<int>{5 },      /*防御力*/
-                                                                new List<int>{5 },      /*俊敏性*/
-                                                                new List<int>{10 },     /*回避*/
-                                                                new List<int>{95 },     /*命中率*/
-                                                                new List<int>{10 },     /*運*/
-                                                                new List<int>{1 },      /*火耐性*/
-                                                                new List<int>{1 },      /*水耐性*/
-                                                                new List<int>{1 },      /*木耐性*/
-                                                                new List<int>{1 },      /*金耐性*/
-                                                                new List<int>{1 },      /*土耐性*/
-                                                                new List<int>{1 },      /*火攻撃*/
-                                                                new List<int>{1 },      /*水攻撃*/
-                                                                new List<int>{1 },      /*木攻撃*/
-                                                                new List<int>{1 },      /*金攻撃*/
-                                                                new List<int>{1 },      /*土攻撃*/
-                                                                new List<int>{0 },      /*影制御*/
-                                                                new List<int>{5 },      /*アイテム所持数*/
+    private List<List<int>> AbyValue = new List<List<int>> {
+        new List<int>{20 },     /*体力(要素1以上は使用禁止)*/
+        new List<int>{20 },     /*最大体力*/
+        new List<int>{10 },     /*スペルポイント(要素1以上は使用禁止)*/
+        new List<int>{10 },     /*最大スペルポイント*/
+        new List<int>{100 },    /*空腹度(要素1以上は使用禁止)*/
+        new List<int>{100 },    /*最大空腹度*/
+        new List<int>{5 },      /*攻撃力*/
+        new List<int>{5 },      /*防御力*/
+        new List<int>{5 },      /*俊敏性*/
+        new List<int>{10 },     /*回避*/
+        new List<int>{95 },     /*命中率*/
+        new List<int>{10 },     /*運*/
+        new List<int>{1 },      /*火耐性*/
+        new List<int>{1 },      /*水耐性*/
+        new List<int>{1 },      /*木耐性*/
+        new List<int>{1 },      /*金耐性*/
+        new List<int>{1 },      /*土耐性*/
+        new List<int>{1 },      /*火攻撃*/
+        new List<int>{1 },      /*水攻撃*/
+        new List<int>{1 },      /*木攻撃*/
+        new List<int>{1 },      /*金攻撃*/
+        new List<int>{1 },      /*土攻撃*/
+        new List<int>{0 },      /*影制御*/
+        new List<int>{0 },      /*アイテム所持数*/
+        new List<int>{5 },      /*最大アイテム所持数*/
     };
 
 
 
 
-    [SerializeField]
-    private string[] AbyName = { "hp", "mhp", "sp", "msp", "hun", "mhn", "atk", "def", "agi", "eva", "acc", "luk", "firr", "wtrr", "wodr", "mtlr", "solr", "fira", "wtra", "woda", "mtla", "sola", "sdw","pock" };
+    static private string[] AbyName = { "hp", "mhp", "sp", "msp", "hun", "mhn", "atk", "def", "agi", "eva", "acc", "luk", "firr", "wtrr", "wodr", "mtlr", "solr", "fira", "wtra", "woda", "mtla", "sola", "sdw", "pock", "mpck" };
 
     [SerializeField]
     private List<int> StateList = new List<int>(); //状態を保存しておくリスト
@@ -66,7 +67,7 @@ public class StatusData : MonoBehaviour {
     }
 
     #region 読み取りと書き込みを設定
-
+    /*
     public int Hp
     {
         get { return AbyValue[0][0]; }
@@ -159,6 +160,8 @@ public class StatusData : MonoBehaviour {
     {
         get { return AbyValue[22][0]; }
     }
+    */
+
     public List<ItemData> ItemsList
     {
         get { return HoldItemList; }
@@ -173,23 +176,9 @@ public class StatusData : MonoBehaviour {
         { value = -1; }
         return value;
     }
-    public int GetAvilityData(string label) //基本能力値を取得する(文字列)
+    public int GetAbilityData(string label) //基本能力値を取得する(文字)
     {
-
-        int index = -1;
-        int value = -1;
-        try
-        {
-            for (int i = 0; i < AbyName.Length; i++)
-            {
-                if (label == AbyName[i]) { index = i; }
-            }
-            if (index == -1)
-            { return index; }
-            value = AbyValue[index][0];
-        } catch { }
-
-        return value;
+        return GetAbilityData(GetAvilityId(label));
     }
     public int GetSumAbility(int index) //能力値の合計を取得する
     {
@@ -202,7 +191,48 @@ public class StatusData : MonoBehaviour {
         } catch { sum = -1; }
         return sum;
     }
+    public int GetSumAbility(string label) //能力値の合計を取得する(文字)
+    {
+        return GetAbilityData(GetAvilityId(label));
+    }
+    public int GetAvilityId(string label)
+    {
+        int outValue = 0;
+        for(int i=0; i<AbyName.Length; i++)
+        {
+            if (AbyName[i] == label)
+            {
+                outValue = i;
+            }
+        }
+        return outValue;
+    }
 
+    public void Set_AbyData(int index, int index2, int value) //能力値に値を代入
+    {
+        AbyValue[index][index2] = value;
+    }
+    public void Set_AbyData(int index, int value) //基本能力値を代入
+    {
+        Set_AbyData(index, 0, value);
+    }
+    public void Set_AbyData(string label, int value) //基本能力値を代入(文字)
+    {
+        Set_AbyData(GetAvilityId(label), value);
+    }
+    public void Add_AbyData(int index, int index2, int value) //能力値に加算する
+    {
+        AbyValue[index][index2] += value;
+    } 
+    public void Add_AbyData(int index, int value) //基本能力値に加算する
+    {
+        Add_AbyData(index, 0, value);
+
+    } 
+    public void Add_AbyData(string label, int value) //基本能力値に加算する(文字)
+    {
+        Add_AbyData(GetAvilityId(label), value);
+    }
 
     #endregion
 
@@ -217,9 +247,37 @@ public class StatusData : MonoBehaviour {
         }
         catch
         {
-            Debug.Log("<color=red>[AddAbyValueList]ERRER : Out Of Range(AbyValue)</color>");
+            Debug.Log("[AddAbyValueList]ERRER : Out Of Range(AbyValue)");
         }
             return outindex;
+    }
+    public void RemoveAbyValueList(int index, int index2) //能力値リストから能力をRemoveる
+    {
+        if (index2 <= 1 || index2 > AbyValue[index].Count - 1) return;
+        Debug.Log("[test]index2 : "+index2);
+        AbyValue[index].RemoveAt(index2);
+    }
+
+    //アイテムリストに挿入
+    public void AddItem_List(ItemData data)
+    {
+        if (HoldItemList.Count >= GetAbilityData("mpck"))
+        {
+            Debug.Log("アイテムがいっぱいです");
+            return;
+        }
+        HoldItemList.Add(data);
+    }
+
+    //アイテムリストからアイテムを除外する
+    public void RemoveItem_List(ItemData data)
+    {
+        if (!HoldItemList.Contains(data))
+        {
+            Debug.Log("アイテムがない");
+            return;
+        }
+        HoldItemList.Remove(data);
     }
 
     //辞書を取得する
@@ -268,6 +326,7 @@ public class StatusData : MonoBehaviour {
         bool isBaseStatus = true;
         bool isStatePercent = false;
         bool isAttribute = false;
+        bool isItems = false;
 
         public override void OnInspectorGUI()
         {
@@ -339,6 +398,19 @@ public class StatusData : MonoBehaviour {
                 }
 
             }
+
+            if(isItems = EditorGUILayout.Foldout(isItems, "所持しているアイテム"))
+            {
+                EditorGUILayout.LabelField("最大アイテム所持数: " + SD.GetSumAbility("mpck"));
+                EditorGUILayout.LabelField("--- --- --- --- --- --- ---");
+
+                foreach(ItemData i in SD.HoldItemList)
+                {
+                    EditorGUILayout.LabelField("〇["+ i.ItemId +"]" + i.Name);
+                }
+            }
+
+            base.OnInspectorGUI();
 
         }
     }

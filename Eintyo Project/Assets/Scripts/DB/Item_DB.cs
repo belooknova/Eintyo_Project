@@ -11,34 +11,34 @@ using UnityEditorInternal;
 
 
 [Serializable]
-[CreateAssetMenu(fileName = "ItemDaata", menuName = "DataBase/Create_ItemData")]
+[CreateAssetMenu(fileName = "ItemData", menuName = "DataBase/Create_ItemData")]
 public class Item_DB : ScriptableObject
 {
     [SerializeField]
-    private string mataName; //内部的な名前 
+    public string mataName; //内部的な名前 
 
     [SerializeField]
-    private string unknownName; //未鑑定時の名前
+    public string unknownName; //未鑑定時の名前
 
     [SerializeField]
-    private string description; //アイテムの説明
+    public string description; //アイテムの説明
 
     [SerializeField]
-    private int cost = 1;//アイテムの収納コスト
+    public int cost = 1;//アイテムの収納コスト
 
     [SerializeField]
-    private int itemType; //アイテムの種類
+    public int itemType; //アイテムの種類
     //0: 使用アイテム
     //1: 不使用アイテム
 
     [SerializeField]
-    private List<AddBuffSource> addBuffs = new List<AddBuffSource>();
+    public List<AddBuffSource> addBuffs = new List<AddBuffSource>();
 
     [SerializeField]
-    private List<AddBuffSource> passive = new List<AddBuffSource>();
+    public List<AddBuffSource> passive = new List<AddBuffSource>();
 
     [SerializeField]
-    private int usingType; //使用タイプ
+    public int usingType; //使用タイプ
 
     //--- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
     public string MataName { get { return mataName; } }
@@ -55,101 +55,7 @@ public class Item_DB : ScriptableObject
     /*-----inspector拡張コード-----*/
 
 
-    //リスト内表示のコード
-    [CustomPropertyDrawer(typeof(AddBuffSource))]
-    public class BuffParamDrawer : PropertyDrawer
-    {
-
-        void OnEnable()
-        {
-
-        }
-
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-        {
-            using (new EditorGUI.PropertyScope(position, label, property))
-            {
-                AbilityValue_DB AVD = Resources.Load("DataBase/AbilityValue", typeof(AbilityValue_DB)) as AbilityValue_DB;
-
-
-                EditorGUIUtility.labelWidth = 30;
-                position.height = EditorGUIUtility.singleLineHeight;
-
-                var typeRect = new Rect(position) {y=position.y+4};
-                var indexpRect = new Rect(position)
-                {
-                    y = typeRect.y + EditorGUIUtility.singleLineHeight + 16,
-                    width = position.width * 0.5f 
-                };
-                var labelRect = new Rect(indexpRect)
-                {
-                    y = indexpRect.y + EditorGUIUtility.singleLineHeight + 2,
-                    width = 32,
-                };
-                var indexRect = new Rect(indexpRect)
-                {
-                    x = indexpRect.width +48,
-                    width = indexpRect.width - 32
-                };
-                var label2Rect = new Rect(labelRect)
-                {
-                    x = labelRect.x + labelRect.width + 1,
-                    width = 32,
-                };
-                var label3Rect = new Rect(label2Rect)
-                {
-                    x = label2Rect.x + label2Rect.width + 1,
-                    width = 32,
-                };
-                var label4Rect = new Rect(label3Rect)
-                {
-                    x = label3Rect.x + label3Rect.width + 1,
-                    width = 64,
-                };
-
-                //------各プロパティーの SerializedProperty を求める------
-                var typeProperty  = property.FindPropertyRelative("type");
-                var indexProperty = property.FindPropertyRelative("index");
-                var aperProperty  = property.FindPropertyRelative("addPercent");
-                var aconProperty  = property.FindPropertyRelative("addConstant");
-                var percProperty  = property.FindPropertyRelative("percent");
-
-                //------各プロパティーの GUI を描画------
-
-                //バーに表示する内容
-                string[] BarLabel = { "能力値増加", "能力値減少", "状態付与", "状態解除" };
-                typeProperty.intValue = EditorGUI.Popup(typeRect, typeProperty.intValue, BarLabel);
-
-                if (typeProperty.intValue == 0)
-                {
-                    indexProperty.intValue = EditorGUI.Popup(indexpRect, indexProperty.intValue, AVD.GetAbyNameJ());
-                    EditorGUIUtility.labelWidth = 40;
-                    indexProperty.intValue = EditorGUI.IntField(indexRect, "能力ID", indexProperty.intValue);
-                    EditorGUIUtility.labelWidth = 30;
-                    EditorGUI.LabelField(label2Rect, "% +");
-                    aperProperty.intValue = EditorGUI.IntField(labelRect, aperProperty.intValue);
-                    aconProperty.intValue = EditorGUI.IntField(label3Rect, aconProperty.intValue);
-                    EditorGUI.LabelField(label4Rect, "増加させる");
-                }
-
-                if (typeProperty.intValue == 1)
-                {
-                    indexProperty.intValue = EditorGUI.Popup(indexpRect, indexProperty.intValue, AVD.GetAbyNameJ());
-                    EditorGUIUtility.labelWidth = 40;
-                    indexProperty.intValue = EditorGUI.IntField(indexRect, "能力ID", indexProperty.intValue);
-                    EditorGUIUtility.labelWidth = 30;
-                    EditorGUI.LabelField(label2Rect, "% +");
-                    aperProperty.intValue = EditorGUI.IntField(labelRect, aperProperty.intValue);
-                    aconProperty.intValue = EditorGUI.IntField(label3Rect, aconProperty.intValue);
-                    EditorGUI.LabelField(label4Rect, "減少させる");
-                }
-
-
-            }
-        }
-    }
-
-
+   
     //スキルinspectorのコード
     [CustomEditor(typeof(Item_DB))]
     public class DB_Item_Editor : Editor

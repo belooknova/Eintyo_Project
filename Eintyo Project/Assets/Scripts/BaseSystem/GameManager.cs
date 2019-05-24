@@ -1,18 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using EintyoSystem;
 
 public class GameManager : MonoBehaviour {
 
     //アクセスできる変数
     public static GameManager instance = null;
-    public StatusData player_stetus;
     public float spSize = 1.28f;
     public Player player; //プレイヤーのクラス
     public List<GameObject> ActorList = new List<GameObject>();
 
     //----用語----
+    [HideInInspector]
     public string[] AbyNameJ;
+    [HideInInspector]
     public string[] AbyName;
     private string[] _typeList;
 
@@ -22,17 +24,15 @@ public class GameManager : MonoBehaviour {
     private List<Skill_DB> _skillsList;
     private List<State_DB> _statusList;
     private List<Item_DB> _itemsList;
-
+    [HideInInspector]
     public List<Skill_DB> SkillList { get { return _skillsList; } }
+    [HideInInspector]
     public List<State_DB> StatusList { get { return _statusList; } }
+    [HideInInspector]
     public List<Item_DB> ItemsList { get { return _itemsList; } }
 
     private string stateTrans = "Input";
-
-    [SerializeField, Header("DB Setting")]
     private StateDataManager BD_State;
-
-    [SerializeField]
     private SkillDataManager BD_skills;
 
     //-----敵関係の変数-----
@@ -55,10 +55,33 @@ public class GameManager : MonoBehaviour {
         CollDataBase();
     }
 
+    ItemData Idata;
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            ItemData data = new ItemData(0);
+            Idata = data;
+            data.Attempt_Obtain_Event(player.MyStatus);
+        }
+
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            Idata.Unobtain_Event();
+        }
+    }
+
+
     // Update is called once per frame
     void FixedUpdate()
     {
+        Buttle_Input_Transition();
 
+    }
+
+    void Buttle_Input_Transition()
+    {
         //◇入力状態
         if (stateTrans == "Input")
         {
@@ -95,9 +118,6 @@ public class GameManager : MonoBehaviour {
             {
                 stateTrans = "Player";
             }
-
-
-
         }
 
         //◇プレイヤー行動
@@ -107,44 +127,29 @@ public class GameManager : MonoBehaviour {
             stateTrans = "Enemy";
         }
 
-
         //◇敵行動
         if (stateTrans == "Enemy")
         {
             //リストに入っている敵の行動を実行
             EnemyListUpdate();
-            for (int i=0; i<EnemyList.Count; i++)
+            for (int i = 0; i < EnemyList.Count; i++)
             {
                 EnemyList[i].TurnUpDate();
             }
-            
+
             //stateTrans = "Enemy_Wait";
             stateTrans = "TurnEnd";
-        }
 
-        /*
-        //廃止しました・・・(何か起きたときのために残しておきます)
-        //◇敵の行動終わり待ち
-        if (stateTrans == "Enemy_Wait")
-        {
-            Debug.Log(enemies_state+"    "+EnemyList.Count);
-            if (EnemyList.Count <= enemies_state)
-            {
 
-                stateTrans = "TurnEnd";
-            }
         }
-        */
 
         //◇ターン終了
-        if(stateTrans == "TurnEnd")
+        if (stateTrans == "TurnEnd")
         {
             EnemyStateClear();
             stateTrans = "Input";
 
         }
-
-
     }
 
     //敵リストを更新する
@@ -203,9 +208,6 @@ public class GameManager : MonoBehaviour {
         _skillsList = SKDM.GetSkillLists();
         _statusList = STDM.GetStateLists();
         _itemsList = ITDM.GetItemLists();
-
-        Debug.Log(_skillsList);
-        Debug.Log(_statusList);
 
         //skill_DB = DataManager.GetSkillLists()[0];
         

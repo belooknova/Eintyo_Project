@@ -16,22 +16,17 @@ public class ItemObject : UnderStepObject {
 
         StatusData status = baseObject.MyStatus;
 
-        //アイテム所持数の確認
-        int pocket = status.ItemsList.Count;
-        //最大アイテム所有数の確認
-        int maxPocket = status.GetAvilityData("pock");
 
-        //アイテムがいっぱいの場合はスルーする。
-        if (pocket >= maxPocket)
+        Debug.Log("アイテムを踏んだ");
+        if (status.GetAbilityData("mpck") <= status.GetAbilityData("pock"))
         {
-            //アイテム踏んだログ
-
+            Debug.Log("アイテムがいっぱいだった");
             return;
         }
-
-        status.ItemsList.Add(itemData); //アイテム保持リストにアイテムデータを挿入
-        itemData.ParentStatus = status; //収納されるステータスデータを記録しておく
-        itemData.Obtain_Event(); //入手時のイベントを実行
+        if (itemData.Attempt_Obtain_Event(status)) //入手時のイベントを実行
+        {
+            //ログ
+        }
         Destroy(gameObject); //このオブジェクトを消す
 
     }
@@ -41,6 +36,7 @@ public class ItemObject : UnderStepObject {
     {
         ItemData data = new ItemData(itemID);
         itemData = data;
+        this.itemID = itemID;
     }
 
     //アイテムデータのチェック
@@ -48,8 +44,7 @@ public class ItemObject : UnderStepObject {
     {
         if (itemData == null)
         {
-            ItemData data = new ItemData(0);
-            itemData = data;
+            CreateItemeData(itemID);
         }
     }
 

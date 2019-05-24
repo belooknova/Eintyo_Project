@@ -83,7 +83,9 @@
     <Compile Include="Assets\Scripts\DB\State_DB.cs" />
     <Compile Include="Assets\Scripts\DB\StateDataManager.cs" />
     <Compile Include="Assets\Scripts\DB\type_DB.cs" />
+    <Compile Include="Assets\Scripts\DB\Weapon_DB.cs" />
     <Compile Include="Assets\Scripts\DebugScript\testDirPoss.cs" />
+    <Compile Include="Assets\Scripts\DebugScript\testItemObject.cs" />
     <Compile Include="Assets\Scripts\DebugScript\testList.cs" />
     <Compile Include="Assets\Scripts\Dungeon\DgDivision.cs" />
     <Compile Include="Assets\Scripts\Dungeon\DgGenerator.cs" />

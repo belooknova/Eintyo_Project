@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 namespace EintyoSystem
 {
 
@@ -34,10 +38,107 @@ namespace EintyoSystem
         //stateに関する成功率
         public int percent = 100;
 
-
-
-
     }
+
+    /*-----inspector拡張コード-----*/
+
+#if UNITY_EDITOR
+
+    //リスト内表示のコード
+    [CustomPropertyDrawer(typeof(AddBuffSource))]
+    public class BuffParamDrawer : PropertyDrawer
+    {
+
+        void OnEnable()
+        {
+
+        }
+
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        {
+            using (new EditorGUI.PropertyScope(position, label, property))
+            {
+                AbilityValue_DB AVD = Resources.Load("DataBase/AbilityValue", typeof(AbilityValue_DB)) as AbilityValue_DB;
+
+
+                EditorGUIUtility.labelWidth = 30;
+                position.height = EditorGUIUtility.singleLineHeight;
+
+                var typeRect = new Rect(position) { y = position.y + 4 };
+                var indexpRect = new Rect(position)
+                {
+                    y = typeRect.y + EditorGUIUtility.singleLineHeight + 16,
+                    width = position.width * 0.5f
+                };
+                var labelRect = new Rect(indexpRect)
+                {
+                    y = indexpRect.y + EditorGUIUtility.singleLineHeight + 2,
+                    width = 32,
+                };
+                var indexRect = new Rect(indexpRect)
+                {
+                    x = indexpRect.width + 48,
+                    width = indexpRect.width - 32
+                };
+                var label2Rect = new Rect(labelRect)
+                {
+                    x = labelRect.x + labelRect.width + 1,
+                    width = 32,
+                };
+                var label3Rect = new Rect(label2Rect)
+                {
+                    x = label2Rect.x + label2Rect.width + 1,
+                    width = 32,
+                };
+                var label4Rect = new Rect(label3Rect)
+                {
+                    x = label3Rect.x + label3Rect.width + 1,
+                    width = 64,
+                };
+
+                //------各プロパティーの SerializedProperty を求める------
+                var typeProperty = property.FindPropertyRelative("type");
+                var indexProperty = property.FindPropertyRelative("index");
+                var aperProperty = property.FindPropertyRelative("addPercent");
+                var aconProperty = property.FindPropertyRelative("addConstant");
+                var percProperty = property.FindPropertyRelative("percent");
+
+                //------各プロパティーの GUI を描画------
+
+                //バーに表示する内容
+                string[] BarLabel = { "能力値増加", "能力値減少", "状態付与", "状態解除" };
+                typeProperty.intValue = EditorGUI.Popup(typeRect, typeProperty.intValue, BarLabel);
+
+                if (typeProperty.intValue == 0)
+                {
+                    indexProperty.intValue = EditorGUI.Popup(indexpRect, indexProperty.intValue, AVD.GetAbyNameJ());
+                    EditorGUIUtility.labelWidth = 40;
+                    indexProperty.intValue = EditorGUI.IntField(indexRect, "能力ID", indexProperty.intValue);
+                    EditorGUIUtility.labelWidth = 30;
+                    EditorGUI.LabelField(label2Rect, "% +");
+                    aperProperty.intValue = EditorGUI.IntField(labelRect, aperProperty.intValue);
+                    aconProperty.intValue = EditorGUI.IntField(label3Rect, aconProperty.intValue);
+                    EditorGUI.LabelField(label4Rect, "増加させる");
+                }
+
+                if (typeProperty.intValue == 1)
+                {
+                    indexProperty.intValue = EditorGUI.Popup(indexpRect, indexProperty.intValue, AVD.GetAbyNameJ());
+                    EditorGUIUtility.labelWidth = 40;
+                    indexProperty.intValue = EditorGUI.IntField(indexRect, "能力ID", indexProperty.intValue);
+                    EditorGUIUtility.labelWidth = 30;
+                    EditorGUI.LabelField(label2Rect, "% +");
+                    aperProperty.intValue = EditorGUI.IntField(labelRect, aperProperty.intValue);
+                    aconProperty.intValue = EditorGUI.IntField(label3Rect, aconProperty.intValue);
+                    EditorGUI.LabelField(label4Rect, "減少させる");
+                }
+
+
+            }
+        }
+    }
+#endif
+
 
     //アイテムのメタデータ
     public class ItemData
@@ -58,7 +159,11 @@ namespace EintyoSystem
         public int PossessionCost = 1;
 
         //アイテムID
-        private int ItemId;
+        public int ItemId
+        {
+            private set;
+            get;
+        }
 
         //収納されるStatusData
         public StatusData ParentStatus;
@@ -67,34 +172,51 @@ namespace EintyoSystem
         public string Description;
 
         //バフに使用するリストの要素番号
-        private List<int> listAddress = new List<int>();
+        protected List<int> listAddress = new List<int>();
         public List<int> ListAddress { get { return listAddress; } }
 
-        //リストの要素番号を設定する
-        public void Set_Address(int index, int number)
-        {
-            try { listAddress[index] = number; }
-            catch { Debug.Log("<color=red>[Set_Address]ERRER</color>"); }
-        }
 
-        //手に入れたときのイベント
-        public void Obtain_Event()
+        //手に入れることを試みる
+        public bool Attempt_Obtain_Event(StatusData statusData)
         {
+            Debug.Log("アイテム入手を試みる");
             Item_DB item_db = GameManager.instance.ItemsList[ItemId];
-            int Len = item_db.Passive.Count;
-            //パッシブリストが空の場合は終了
-            if (Len == 0) return;
             //listAddressに何か入っている場合はメソッド終了(想定上はあり得ないけど一応)
             if (listAddress.Count != 0)
             {
                 Debug.Log("<color=red>[Obtain_Event]ERRER : 二回以上呼び出されています。</cloor>");
-                return;
+                return false;
             }
+
+            //アイテム所持数の確認
+            int pocket = statusData.GetAbilityData("pock");
+            //最大アイテム所有数の確認
+            int maxPocket = statusData.GetAbilityData("mpck");
+
+            //アイテムがいっぱいの場合はスルーする。
+            if (pocket >= maxPocket)
+            {
+                return false;
+            }
+
+            Obtain_Event(statusData);
+            return true;
+        }
+
+
+        //手に入れたときのイベント
+        protected void Obtain_Event(StatusData statusData)
+        {
+
+            Item_DB item_db = GameManager.instance.ItemsList[ItemId];
+            ParentStatus = statusData; //収納されるステータスデータを記録しておく
+            ParentStatus.AddItem_List(this); //アイテム保持リストにアイテムデータを挿入
+            statusData.Add_AbyData("pock", item_db.Cost);
 
             foreach (AddBuffSource i in item_db.Passive)
             {
                 //能力増減編
-                if (i.type == 0 && i.type == 1)
+                if (i.type == 0 || i.type == 1)
                 {
                     //リストのぶち込む値
                     int value = ParentStatus.GetAbilityData(i.index) * (int)(0.01f * i.addPercent) + i.addConstant;
@@ -114,44 +236,34 @@ namespace EintyoSystem
                     listAddress.Add(buffer);
 
                 }
-
-
             }
-
-
         }
 
         //手放した時のイベント
         public void Unobtain_Event()
         {
-            if (listAddress.Count == 0)
+            Item_DB item_db = GameManager.instance.ItemsList[ItemId];
+
+
+            if (item_db.Passive != null || item_db.Passive.Count != 0) //パッシブスキルが設定されている。
             {
-                Debug.Log("<color=red>[Obtain_Event]ERRER : 入手時のイベントが呼び出されていません。</cloor>");
-                return;
+                Debug.Log("パッシブスキルが設定されている");
+                if (listAddress.Count == 0)
+                {
+                    Debug.Log("[Obtain_Event]ERRER : listAddressに何も入っていません.");
+                    return;
+                }
+
+                Debug.Log("バフを取り除くぞ");
+                for (int i = 0; i < listAddress.Count; i++)
+                {
+                    ParentStatus.RemoveAbyValueList(item_db.Passive[i].index, listAddress[i]); //バフを取り除く
+                }
             }
 
-
-
-
-        }
-
-        //二つの変数をビットに変換する
-        private int ValueToBit_buff(int abyIndex, int listIndex)
-        {
-            //abyIndex : 0~7  listIndex : 8~15
-            int outbit = listIndex & abyIndex << 8;
-            Debug.Log("[test]outbit : " + outbit);
-            return outbit;
-        }
-
-        //ビットを二つの変数に変換する
-        private void BitToValue_buff(int bit, out int abyIndex, int listIndex)
-        {
-            int bitMask = 0xF0; //1111 0000 
-
-            listIndex = (bit &  bitMask) >> 4;
-            abyIndex  = (bit & ~bitMask);
-
+            Debug.Log("リムーブ");
+            ParentStatus.RemoveItem_List(this);
+            ParentStatus.Add_AbyData("pock", -item_db.Cost);
         }
 
     }

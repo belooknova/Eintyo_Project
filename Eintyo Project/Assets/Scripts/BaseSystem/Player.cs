@@ -57,7 +57,6 @@ public class Player : BaseObject {
         {
             if (!((input & InputFlag.HOLD)==InputFlag.HOLD))
             {
-                Debug.Log("NOThold");
                 AttemptMove();
                 return;
             }
@@ -83,7 +82,7 @@ public class Player : BaseObject {
 
     private void OnDisable()
     {
-        GameManager.instance.player_stetus = GetStatus();
+        GameManager.instance.player = this;
     }
 
     // horizontal入力とvertical入力の設定
