@@ -1,13 +1,21 @@
 @startuml
 title CreateDungeon
 
+
+
 abstract class DgFactoryBase{
     DgBase create(int SizeX, int SizeY)
     {abstract} DgBase GenerateDungeon(int SizeX, int SizeY)
 }
 
 abstract class DgBase{
-    abstract void use()
+    # GameObject floorTile
+    # GameObject frontWallTile
+    # DgMap map
+    # int roomMaxSize
+
+    {abstract} void use()
+    void DrawMap()
 }
 
 class NatureDgFactory{
@@ -19,7 +27,7 @@ class NatureDg{
 }
 
 class DgCell{
-    Cell(int x, int y)
+    DgCell(int x, int y)
     int X()
     int Y()
     Cell Up()
@@ -35,28 +43,71 @@ class DgCreateRooms{
 }
 
 class DgCreatePass{
-    - IDgTile[,] map
-    DgCreatePass(IDgTile[,])
-    IDgTile[,] CreatePass()
-    - List<Cell> StoreCoodinateOptions(Cell nowCoordinates)
+    - DgMap map
+    - int excludedSize
+    - List<DgCell> passCoordinates
+    - List<DgCell> candidateRoomCoordinates
+    - int extendLength
+    - const int UP
+    - const int RIGHT
+    - const int DOWN
+    - const int LEFT
+
+    DgCreatePass(DgMap map, int roomMaxSize)
+    DgMap CreateStraightPass()
+    - void CreatePass(int repeatValueMin, int continuedValue, int horizontalValueMax, int verticalValueMax)
+    - DgCell ExtendPass(DgCell startCoordinates, int extendLength, int direction)
+    - DgCell GetCoordinateInAssignedDirection(DgCell coordinate, int direction)
+    - List<DgCell> StoreCoodinateOptions(DgCell coordinates)
+    - bool CanExtendPass(DgCell coordinates, int direction)
     - bool CanCreatePass(DgCell assignedCoordinates)
+    - void ReflectPassInMap()
+    - void DrawBoundaryLine()
+    - void RemoveBoundaryLine()
 }
 
-interface IDgTile{
-    bool IsPass()
-    bool IsWall()
+abstract class DgTileBase{
+    {abstract} bool IsPass()
+    {abstract} bool IsWall()
 }
 
-DgFactoryBase - DgBase : > creates
-NatureDgFactory - NatureDg : > creates
-DgFactoryBase <|--- NatureDgFactory
-DgBase <|-- NatureDg
+class DgMap{
+    - DgTileBase[,] map
+    - LinkedList<DgCell> passSideCoordinates
+    - bool isUsedPassSideCoordinates
+    - LinkedList<DgCell> usedPassSideCoordinates
+    - int nowUsingCoordinateIndexValue
+    DgMap(int sizeX, int sizeY)
+    void RegisterTile(DgCell coordinates, DgTileBase tile)
+    void RegisterTile(int x, int y, DgTileBase tile)
+    void RemoveTile(int x, int y)
+    DgTileBase GetTileInAssignedCoordinates(int x, int y)
+    DgCell FetchPassCoordinate()
 
-NatureDg -- DgCreatePass
-NatureDg - DgCreateRooms
-DgBase - IDgTile
+}
 
-DgCreatePass - DgCell
+DgFactoryBase -r- DgBase : > creates
+DgFactoryBase <|-d- NatureDgFactory
+DgBase <|-d- NatureDg
+NatureDgFactory -r- NatureDg : > creates
+
+
+DgBase -d- DgTileBase
+DgBase -r- DgMap
+
+NatureDg -d- DgCreatePass
+NatureDg -d- DgCreateRooms
+
+DgCreatePass -d- DgCell
+DgCreateRooms -d- DgCell
+
+DgCreatePass -u- DgTileBase
+DgCreateRooms -u- DgTileBase
+
+DgCreatePass -u- DgMap
+DgCreateRooms -u- DgMap
+
+NatureDg -[hidden]r- DgTileBase
 
 
 @enduml

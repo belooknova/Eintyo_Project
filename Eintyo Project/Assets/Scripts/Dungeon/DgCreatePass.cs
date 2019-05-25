@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using Dungeon;
 
+
 namespace Dungeon{
     class DgCreatePass{
 
@@ -40,8 +41,31 @@ namespace Dungeon{
         /// <summary>
         /// ジグザグ通路を作る
         /// </summary>
-        /// <returns>通路情報を格納した二次元配列</returns>
+        /// <returns>通路情報を格納したDgMap</returns>
         public DgMap CreateZigzagPass(){
+            CreatePass(8, 1, 3, 3);
+            //CreatePass(5, 1, 3, 3);
+            return map;
+        }
+
+        /// <summary>
+        /// 直線的な通路を作る
+        /// </summary>
+        /// <returns>通路情報を格納したDgMap</returns>
+        public DgMap CreateStraightPass(){
+            CreatePass(5, 5, 1, 1);
+            return map;
+        }
+
+        /// <summary>
+        /// 通路を作成する
+        /// </summary>
+        /// <param name="repeatValueMin">inclusive. maxはこれ+3(exclusive) 何回同じ方向に伸ばしていくか</param>
+        /// <param name="continuedValue">水平、垂直方向にそれぞれどれだけ伸ばすかを決める頻度(これが高いほど変更頻度が低い)</param>
+        /// <param name="horizontalValueMax">水平方向にどれだけ連続でTileを置くか。min:0</param>
+        /// <param name="verticalValueMax">垂直方向にどれだけ連続でTileを置くか。min:0</param>
+        private void CreatePass(int repeatValueMin, int continuedValue
+                , int horizontalValueMax, int verticalValueMax){
 
             Debug.Log("CreateZigZagPass:46");
             //境界線を描く
@@ -51,53 +75,60 @@ namespace Dungeon{
 
             //通路を描き始める座標を決める
             int firstX, firstY;
-            firstX = Random.Range(excludedSize, map.SizeX-excludedSize);
-            firstY = Random.Range(excludedSize, map.SizeY-excludedSize);
+            //firstX = Random.Range(excludedSize, map.SizeX-excludedSize);
+            //firstY = Random.Range(excludedSize, map.SizeY-excludedSize);
+            firstX = (int)map.SizeX / 2;
+            firstY = (int)map.SizeY / 2;
             nowCoordinate = new DgCell(firstX, firstY);
-            passCoordinates.Add(nowCoordinate);
+            map.AddPassSideCoordinate(nowCoordinate);
             map.RegisterTile(nowCoordinate, new DgFloorTile());
 
             //伸ばす方向
             int direction_X;
             int direction_Y;
             
-
             //最初の位置から通路を伸ばしていく。
-            while(candidateRoomCoordinates.Count < 6){
-
-                //部屋を作成する候補座標を登録する
-                candidateRoomCoordinates.Add(nowCoordinate);
-
-                // //今まで伸ばした経路の中から次伸ばす元の座標を選ぶ
-                // nowCoordinate = passCoordinates[Random.Range(0, passCoordinates.Count)];
-
-                //部屋を作成する候補座標を基に次の通路を伸ばし始める座標を決める
-                nowCoordinate = candidateRoomCoordinates[
-                    Random.Range(0,candidateRoomCoordinates.Count)];
+            while(map.CandidateRoomCoordinatesCount < 6){
 
                 direction_X = Random.Range(0, 2) * 2 + 1;
                 direction_Y = Random.Range(0, 2) * 2;
 
-                //同じ方向にrepeatValue*(horizenValue + verticalValue)回通路を伸ばす
-                int repeatValue = Random.Range(6, 8);
-                int horizonValue;
-                int verticalValue;
-                
+                //passCoordinateを取り出す
+                nowCoordinate = map.FetchPassCoordinate((DgCell candidatePassCoordinate) => {
+                    //先ほど決めたx,yどちらかの方向には進んでいけるならば
+                    if(CanExtendPass(candidatePassCoordinate, direction_X) || 
+                            CanExtendPass(candidatePassCoordinate, direction_Y)){
+                        return true;
+                    } else {
+                        return false;
+                    }
+                });
+                //nowCoordinate == nullの場合はどちらにも行けないということなのでcontinue
+                if(nowCoordinate == null){ continue; }
 
-                for (int i = 0; i < repeatValue; i++)
+                //mapにpassSideCoordinateを追加
+                map.AddPassSideCoordinate(nowCoordinate);
+
+                //同じ方向にrepeatValue*(horizenValue + verticalValue)回通路を伸ばす
+                int repeatValue = Random.Range(repeatValueMin, repeatValueMin+3);
+                int horizontalValue;
+                int verticalValue;
+
+                for (int i = 0; i < (repeatValue-continuedValue); i++)
                 {
-                    horizonValue = Random.Range(0, 3);
-                    verticalValue = Random.Range(0, 3);
-                    nowCoordinate = ExtendPass(nowCoordinate, horizonValue, direction_X);
-                    nowCoordinate = ExtendPass(nowCoordinate, verticalValue, direction_Y);
+                    horizontalValue = Random.Range(0, horizontalValueMax);
+                    verticalValue = Random.Range(0, verticalValueMax);
+                    for (int j = 0; j < continuedValue; j++)
+                    {
+                        nowCoordinate = ExtendPass(nowCoordinate, horizontalValue, direction_X);
+                        nowCoordinate = ExtendPass(nowCoordinate, verticalValue, direction_Y);
+                    }
                 }
             }
             
-            candidateRoomCoordinates.Add(nowCoordinate);
+            map.AddPassSideCoordinate(nowCoordinate);
             //境界線を取り除く
             //RemoveBoundaryLine();
-
-            return map;
         }
 
 
@@ -108,8 +139,8 @@ namespace Dungeon{
         /// <param name="extendLength">伸ばす長さ</param>
         /// <param name="direction">伸ばす方向</param>
         /// <returns>最後に通路とした座標</returns>
-        private DgCell ExtendPass(DgCell startCoordinates, int extendLength, int direction){
-            DgCell nowCoordinate = startCoordinates;
+        private DgCell ExtendPass(DgCell startCoordinate, int extendLength, int direction){
+            DgCell nowCoordinate = startCoordinate;
 
             for (int i = 0; i < extendLength; i++)
             {
@@ -221,7 +252,7 @@ namespace Dungeon{
                 //通路である場合
                 if(propertiesAroundGround[remainder].IsPass()){
                     continuedValue++;
-                    if(continuedValue == 3){ return false; }
+                    if(continuedValue == 3){ Debug.Log("いけないです"); return false; }
                 }
             }
             
@@ -244,9 +275,9 @@ namespace Dungeon{
         /// </summary>
         private void DrawBoundaryLine(){
             //通路の壁を描画する四角形の四点
-            DgCell LeftUp = new DgCell(excludedSize-1, excludedSize-1);
-            DgCell RightUp = new DgCell(map.SizeX-excludedSize, excludedSize-1);
-            DgCell LeftDown = new DgCell(excludedSize-1, map.SizeY-excludedSize);
+            DgCell LeftUp = new DgCell(excludedSize-2, excludedSize-2);
+            DgCell RightUp = new DgCell(map.SizeX-(excludedSize-1), excludedSize-2);
+            DgCell LeftDown = new DgCell(excludedSize-2, map.SizeY-(excludedSize-1));
             
             //上側と下側
             for (int x = LeftUp.X; x < RightUp.X+1; x++)

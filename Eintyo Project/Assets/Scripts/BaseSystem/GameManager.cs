@@ -39,7 +39,21 @@ public class GameManager : MonoBehaviour {
         }
         if (Input.GetKeyDown(KeyCode.Space)) {
             Debug.Log("スペースキー押した！");
-		    dgProduct = dgFactory.create(25, 25);
+            if(dgProduct != null){
+                Debug.Log("前のマップがSceneに残ってるんで消しますね");
+                dgProduct.RemoveTileGameObject();
+                dgProduct = null;
+            }
+		    dgProduct = dgFactory.create(35, 35);
+        }
+        if(Input.GetKeyDown(KeyCode.N)){
+            Debug.Log("n押されたので，マップ消します");
+            if(dgProduct == null){
+                Debug.Log("nullやないか～～い！");
+            } else {
+                dgProduct.RemoveTileGameObject();
+                dgProduct = null;
+            }
         }
 	}
 }
