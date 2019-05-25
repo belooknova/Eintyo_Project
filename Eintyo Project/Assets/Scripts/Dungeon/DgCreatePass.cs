@@ -43,7 +43,7 @@ namespace Dungeon{
         /// </summary>
         /// <returns>通路情報を格納したDgMap</returns>
         public DgMap CreateZigzagPass(){
-            CreatePass(8, 1, 3, 3);
+            CreatePass(9, 1, 3, 3);
             //CreatePass(5, 1, 3, 3);
             return map;
         }

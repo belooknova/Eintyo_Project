@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour {
                 dgProduct.RemoveTileGameObject();
                 dgProduct = null;
             }
-		    dgProduct = dgFactory.create(35, 35);
+		    dgProduct = dgFactory.create(60, 60);
         }
         if(Input.GetKeyDown(KeyCode.N)){
             Debug.Log("n押されたので，マップ消します");

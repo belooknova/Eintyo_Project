@@ -26,7 +26,7 @@ class DgCreateRooms{
     public DgMap CreateRooms(){
         DgCell roomCoordinate;
 
-        for(int i = 0; i < 6; i++){
+        for(int i = 0; i < 5; i++){
             roomCoordinate = map.FetchRoomCoordinate();
             if(roomCoordinate == null){
                 Debug.Log("部屋をこれ以上描画できません");
