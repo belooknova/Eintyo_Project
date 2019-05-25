@@ -83,7 +83,7 @@ class DgMap{
     /// </summary>
     /// <param name="checkPassCoordinateHandler">座標取得後に行う処理。返り値:bool 引数:DgCell</param>
     public DgCell FetchPassCoordinate(CheckPassCoordinateHandler checkPassCoordinateHandler){
-        if(Random.Range(0,2) == 0 || usedPassSideCoordinates.Count == 0){
+        if((Random.Range(0,2) == 0 || usedPassSideCoordinates.Count == 0) && passSideCoordinates.Count > 0){
             nowUsingCoordinateIndexValue = Random.Range(0, passSideCoordinates.Count);
             if(checkPassCoordinateHandler(passSideCoordinates[nowUsingCoordinateIndexValue])){
                 //使用済み通路リストに移す
@@ -105,12 +105,33 @@ class DgMap{
     }
 
     /// <summary>
+    /// 部屋を作成するときに部屋座標を取り出すために使う。
+    /// </summary>
+    /// <returns></returns>
+    public DgCell FetchRoomCoordinate(){
+        if(passSideCoordinates.Count != 0){
+            nowUsingCoordinateIndexValue = Random.Range(0, passSideCoordinates.Count);
+            DgCell roomCoordinate = passSideCoordinates[nowUsingCoordinateIndexValue];
+            passSideCoordinates.RemoveAt(nowUsingCoordinateIndexValue);
+            return roomCoordinate;
+        } else if(usedPassSideCoordinates.Count != 0){
+            nowUsingCoordinateIndexValue = Random.Range(0, usedPassSideCoordinates.Count);
+            DgCell roomCoordinate = usedPassSideCoordinates[nowUsingCoordinateIndexValue];
+            usedPassSideCoordinates.RemoveAt(nowUsingCoordinateIndexValue);
+            return roomCoordinate;
+        } else {
+            return null;
+        }
+    }
+
+    /// <summary>
     /// passSideCoordinateに新しい座標をaddする。
     /// </summary>
     /// <param name="newPassSideCoordinate">addしたい座標</param>
     public void AddPassSideCoordinate(DgCell newPassSideCoordinate){
         passSideCoordinates.Add(newPassSideCoordinate);
     }
+    
 
     /// <summary>
     /// 部屋設置候補座標を返す。

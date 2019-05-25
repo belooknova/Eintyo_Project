@@ -107,7 +107,7 @@ namespace Dungeon{
                 if(nowCoordinate == null){ continue; }
 
                 //mapにpassSideCoordinateを追加
-                map.AddPassSideCoordinate(nowCoordinate);
+                //map.AddPassSideCoordinate(nowCoordinate);
 
                 //同じ方向にrepeatValue*(horizenValue + verticalValue)回通路を伸ばす
                 int repeatValue = Random.Range(repeatValueMin, repeatValueMin+3);
@@ -124,9 +124,9 @@ namespace Dungeon{
                         nowCoordinate = ExtendPass(nowCoordinate, verticalValue, direction_Y);
                     }
                 }
+                map.AddPassSideCoordinate(nowCoordinate);
             }
             
-            map.AddPassSideCoordinate(nowCoordinate);
             //境界線を取り除く
             //RemoveBoundaryLine();
         }

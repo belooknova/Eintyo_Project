@@ -264,6 +264,8 @@ MonoBehaviour:
   floorTile: {fileID: 1300699349014932, guid: 337c7bd8c3cf4cf49963ed28b52a5170, type: 2}
   frontWallTile: {fileID: 1415576637523378, guid: 6ed65e2469417ba45ad96f2bbdfd80cf,
     type: 2}
+  roomFloorTile: {fileID: 1300699349014932, guid: 337c7bd8c3cf4cf49963ed28b52a5170,
+    type: 2}
 --- !u!114 &1954177392
 MonoBehaviour:
   m_ObjectHideFlags: 0

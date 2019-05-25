@@ -11,6 +11,7 @@ abstract class DgBase : MonoBehaviour
 {
     [SerializeField] protected GameObject floorTile;
     [SerializeField] protected GameObject frontWallTile;
+    [SerializeField] protected GameObject roomFloorTile;
     
     protected DgMap map;
 
@@ -46,6 +47,9 @@ abstract class DgBase : MonoBehaviour
                 }else if (map.GetTileInAssignedCoordinates(x,y) is DgFrontWallTile){
                     //前側の壁が登録されている
                     putTile(frontWallTile, x, y);
+                }else if(map.GetTileInAssignedCoordinates(x, y) is DgRoomFloorTile){
+                    //部屋の床タイルが登録されている
+                    putTile(roomFloorTile, x, y);
                 }
             }
         }

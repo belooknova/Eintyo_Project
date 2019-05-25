@@ -14,8 +14,8 @@ class NatureDg : DgBase{
         DgCreatePass dgCreatePass = new DgCreatePass(map, roomMaxSize);
         map = dgCreatePass.CreateZigzagPass();
 
-        // DgCreateRooms dgCreateRooms = new DgCreateRooms(map);
-        // dgCreateRooms.CreateRooms();
+        DgCreateRooms dgCreateRooms = new DgCreateRooms(map, roomMaxSize);
+        map = dgCreateRooms.CreateRooms();
 
         DrawMap();
     }

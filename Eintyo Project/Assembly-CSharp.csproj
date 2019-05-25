@@ -69,6 +69,7 @@
      <Compile Include="Assets\Scripts\Dungeon\DgStyle\NatureDgFactory.cs" />
      <Compile Include="Assets\Scripts\Dungeon\DgTiles\DgFloorTile.cs" />
      <Compile Include="Assets\Scripts\Dungeon\DgTiles\DgFrontWallTile.cs" />
+     <Compile Include="Assets\Scripts\Dungeon\DgTiles\DgRoomFloorTile.cs" />
      <Compile Include="Assets\Scripts\Dungeon\DgTiles\DgTileBase.cs" />
      <Compile Include="Assets\Scripts\Dungeon\Layer2D.cs" />
      <None Include="Assets\Scripts\Dungeon\ダンジョン.txt" />
