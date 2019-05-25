@@ -19,12 +19,12 @@ MonoBehaviour:
   addBuffs:
   - type: 0
     index: 0
-    addPercent: 0
+    addPercent: 100
     addConstant: 50
     percent: 0
   - type: 0
     index: 4
-    addPercent: 0
+    addPercent: 100
     addConstant: 1
     percent: 0
   passive: []

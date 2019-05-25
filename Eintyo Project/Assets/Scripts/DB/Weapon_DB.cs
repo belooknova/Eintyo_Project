@@ -14,7 +14,7 @@ using UnityEditorInternal;
 [CreateAssetMenu(fileName = "WeaponData", menuName = "DataBase/Create_WeaponData")]
 public class Weapon_DB : Item_DB {
 
-    public int attribution; // 属性
+    public Skill_DB dedicated_Skill; // 属性
 
 
 }
@@ -60,7 +60,7 @@ public class DB_Weapon_Editor : Editor
         EditorGUILayout.LabelField("【武器名】");
         _DB.mataName = EditorGUILayout.TextField(_DB.mataName);
 
-        _DB.attribution = EditorGUILayout.Popup("属性", _DB.attribution, TypeDB.Attributes_Array);
+        _DB.dedicated_Skill = EditorGUILayout.ObjectField("追加技能", _DB.dedicated_Skill, typeof(Skill_DB), true) as Skill_DB;
 
         _DB.cost = EditorGUILayout.IntField("所持コスト", _DB.cost);
         _DB.unknownName = EditorGUILayout.TextField("未鑑定時の名前(名詞)", _DB.unknownName);

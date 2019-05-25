@@ -20,17 +20,17 @@ MonoBehaviour:
   passive:
   - type: 0
     index: 6
-    addPercent: 20
+    addPercent: 150
     addConstant: 0
     percent: 0
   - type: 0
     index: 7
-    addPercent: 0
+    addPercent: 100
     addConstant: 20
     percent: 0
   - type: 1
     index: 8
-    addPercent: 10
+    addPercent: 110
     addConstant: 2
     percent: 0
   usingType: 3

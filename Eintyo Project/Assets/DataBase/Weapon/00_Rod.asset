@@ -11,12 +11,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3050a1f49cefa9c459e6961f3147dfa3, type: 3}
   m_Name: 00_Rod
   m_EditorClassIdentifier: 
-  mataName: 
-  unknownName: 
+  mataName: "\u304A\u7953\u3044\u68D2"
+  unknownName: "\u68D2"
   description: 
   cost: 1
   itemType: 0
   addBuffs: []
-  passive: []
+  passive:
+  - type: 0
+    index: 6
+    addPercent: 100
+    addConstant: 5
+    percent: 0
   usingType: 0
-  attribution: 0
+  dedicated_Skill: {fileID: 11400000, guid: 396ff298a0c7e2a4eaaad646521c3e24, type: 2}

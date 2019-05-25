@@ -28,7 +28,7 @@ namespace EintyoSystem
 
         [SerializeField]
         //倍率
-        public int addPercent = 0;
+        public int addPercent = 100;
 
         [SerializeField]
         //定数
@@ -139,7 +139,6 @@ namespace EintyoSystem
     }
 #endif
 
-
     //アイテムのメタデータ
     public class ItemData
     {
@@ -161,7 +160,7 @@ namespace EintyoSystem
         //アイテムID
         public int ItemId
         {
-            private set;
+            protected set;
             get;
         }
 
@@ -174,7 +173,6 @@ namespace EintyoSystem
         //バフに使用するリストの要素番号
         protected List<int> listAddress = new List<int>();
         public List<int> ListAddress { get { return listAddress; } }
-
 
         //手に入れることを試みる
         public bool Attempt_Obtain_Event(StatusData statusData)
@@ -202,7 +200,6 @@ namespace EintyoSystem
             Obtain_Event(statusData);
             return true;
         }
-
 
         //手に入れたときのイベント
         protected void Obtain_Event(StatusData statusData)
@@ -265,6 +262,21 @@ namespace EintyoSystem
             ParentStatus.RemoveItem_List(this);
             ParentStatus.Add_AbyData("pock", -item_db.Cost);
         }
+
+    }
+
+    //武器のメタデータ
+    public class WeaponData : ItemData
+    {
+        public WeaponData(int weaponId) : base(weaponId)
+        {
+            Weapon_DB weapon_db = GameManager.instance.WeaponsList[weaponId];
+            ItemId = weaponId;
+            PossessionCost = weapon_db.Cost;
+            Name = weapon_db.MataName;
+        }
+
+        public List<AddBuffSource> Arrange_Buffs = new List<AddBuffSource>(); //追加のバフ
 
     }
 }

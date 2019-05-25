@@ -21,15 +21,14 @@ public class GameManager : MonoBehaviour {
     public string[] TypeList { get { return _typeList; } }
 
     //----データベース----
-    private List<Skill_DB> _skillsList;
-    private List<State_DB> _statusList;
-    private List<Item_DB> _itemsList;
     [HideInInspector]
-    public List<Skill_DB> SkillList { get { return _skillsList; } }
+    public List<Skill_DB> SkillsList { get; private set; }
     [HideInInspector]
-    public List<State_DB> StatusList { get { return _statusList; } }
+    public List<State_DB> StatusList { get; private set; }
     [HideInInspector]
-    public List<Item_DB> ItemsList { get { return _itemsList; } }
+    public List<Item_DB> ItemsList { get; private set; }
+    [HideInInspector]
+    public List<Weapon_DB> WeaponsList { get; private set; }
 
     private string stateTrans = "Input";
     private StateDataManager BD_State;
@@ -205,9 +204,9 @@ public class GameManager : MonoBehaviour {
 
 
         _typeList = TDB.Attributes_Array;
-        _skillsList = SKDM.GetSkillLists();
-        _statusList = STDM.GetStateLists();
-        _itemsList = ITDM.GetItemLists();
+        SkillsList = SKDM.GetSkillLists();
+        StatusList = STDM.GetStateLists();
+        ItemsList = ITDM.GetItemLists();
 
         //skill_DB = DataManager.GetSkillLists()[0];
         
