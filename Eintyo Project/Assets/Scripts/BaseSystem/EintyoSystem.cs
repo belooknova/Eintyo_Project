@@ -279,4 +279,78 @@ namespace EintyoSystem
         public List<AddBuffSource> Arrange_Buffs = new List<AddBuffSource>(); //追加のバフ
 
     }
+
+    /// <summary>
+    /// ステートのメタデータ
+    /// </summary>
+    public class StateData
+    {
+        [SerializeField]
+        private string _stateName; //状態の名前
+
+        [SerializeField, Range(0, 10)]
+        private int priority; //優先度
+
+        [SerializeField]
+        private int release_turn = 3;
+
+        [SerializeField]
+        public List<AddBuffSource> buffsParTurn = new List<AddBuffSource>();
+
+        [SerializeField]
+        public List<AddBuffSource> passive = new List<AddBuffSource>();
+
+        /// <summary>
+        /// 現在の経過ターン
+        /// </summary>
+        private int crrentTurn = 0;
+
+        //--- --- --- --- --- -- 読み取り -- --- --- --- --- ---
+
+        public string StateName
+        {
+            get { return _stateName; }
+        }
+
+        public int Priority
+        {
+            get { return priority; }
+        }
+
+        public int ReleaseTurn
+        {
+            get { return release_turn; }
+        }
+
+        //--- --- --- --- --- --- --- --- --- --- --- --- --- --- 
+
+        //コンストラクタ
+        public StateData(int id)
+        {
+            State_DB dB = GameManager.instance.StatusList[id];
+
+            //コピー
+            _stateName = dB.StateName;
+            priority = dB.GetPrio;
+            release_turn = dB.Getrelease;
+            buffsParTurn = dB.buffsParTurn;
+            passive = dB.passive;
+
+        }
+
+        //この状態になったときに呼び出されるメソッド
+        public void InitialOperate(StatusData target)
+        {
+
+        }
+
+        //この状態が終了するときに呼び出されるメソッド
+        public void EndOperate(StatusData target)
+        {
+
+        }
+
+    }
+
+
 }

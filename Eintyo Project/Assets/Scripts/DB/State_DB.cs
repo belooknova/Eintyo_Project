@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using EintyoSystem;
 using System;
 
 [Serializable]
@@ -15,6 +16,12 @@ public class State_DB : ScriptableObject
 
     [SerializeField]
     private int release_trun = 3;
+
+    [SerializeField]
+    public List<AddBuffSource> buffsParTurn = new List<AddBuffSource>();
+
+    [SerializeField]
+    public List<AddBuffSource> passive = new List<AddBuffSource>();
 
     //--------------------------
 

@@ -16,7 +16,7 @@ namespace AttackMata
         SkillDataManager dataManager; //データベース
         Skill_DB skill;
 
-        public Skill_DB Skill { get { return skill; } }
+        public Skill_DB Skill { get { return skill; } } //実行するスキル
 
         public AttackSource(StatusData A, StatusData B, int index)
         {
@@ -26,7 +26,7 @@ namespace AttackMata
 
             //扱うスキルを取り出す
             //Debug.Log(GameManager.instance.SkillList[index]);
-            skill = GameManager.instance.SkillList[index];
+            skill = GameManager.instance.SkillsList[index];
             
         }
 

@@ -14,3 +14,5 @@ MonoBehaviour:
   _stateName: "\u4E0A\u7530"
   priority: 0
   release_trun: 3
+  buffsParTurn: []
+  passive: []

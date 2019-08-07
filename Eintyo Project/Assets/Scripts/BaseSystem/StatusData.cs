@@ -9,8 +9,6 @@ using UnityEditor;
 
 public class StatusData : MonoBehaviour {
 
-    public float priority = 0; //優先
-
     [SerializeField]
     private int _speed = 1; //移動力
 
@@ -45,12 +43,10 @@ public class StatusData : MonoBehaviour {
     };
 
 
-
-
     static private string[] AbyName = { "hp", "mhp", "sp", "msp", "hun", "mhn", "atk", "def", "agi", "eva", "acc", "luk", "firr", "wtrr", "wodr", "mtlr", "solr", "fira", "wtra", "woda", "mtla", "sola", "sdw", "pock", "mpck" };
 
     [SerializeField]
-    private List<int> StateList = new List<int>(); //状態を保存しておくリスト
+    private List<StateData> StateList = new List<StateData>(); //状態を保存しておくリスト
 
     [SerializeField]
     private List<ItemData> HoldItemList = new List<ItemData>(); //持っているアイテムを保存しておくリスト
@@ -307,9 +303,11 @@ public class StatusData : MonoBehaviour {
     //状態を与えられる
     public void Recieve_State(int index)
     {
-        if (!StateList.Contains(index))
+        StateData stateData = new StateData(index);
+
+        if (!StateList.Contains(stateData))
         {
-            StateList.Add(index);
+            StateList.Add(stateData);
         }
     }
 
@@ -390,10 +388,10 @@ public class StatusData : MonoBehaviour {
             {
                 EditorGUILayout.LabelField("現在の状態");
                 StateDataManager STD = Resources.Load("DataBase/StateDataManager", typeof(StateDataManager)) as StateDataManager;
-                foreach (int s in SD.StateList)
+                foreach (StateData s in SD.StateList)
                 {
                     EditorGUILayout.LabelField("---------------");
-                    EditorGUILayout.LabelField("["+ STD.GetStateLists()[s].StateName +"]");
+                    EditorGUILayout.LabelField("["+ s.StateName +"]");
                     EditorGUILayout.LabelField("説明：");
                 }
 

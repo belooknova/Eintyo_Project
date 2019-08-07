@@ -6,7 +6,7 @@ using FormulePurser;
 using AttackMata;
 
 
-public abstract class BaseObject : MonoBehaviour {
+public abstract class BaseObject : MonoBehaviour, Interface_trunUpDate {
 
     //コリダーとリジッドボディ取得
     private BoxCollider2D boxCollider;
@@ -27,23 +27,16 @@ public abstract class BaseObject : MonoBehaviour {
     [SerializeField]
     private LayerMask ItemLayer;
 
-    //---アニメーション---
-    protected Animator anim;
-
-
     //--- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
     public StatusData MyStatus
     {
         get { return myStatus; }
     }
 
-
     protected virtual void Start () {
         boxCollider = GetComponent<BoxCollider2D>();
         rb2D = GetComponent<Rigidbody2D>();
         size = GameManager.instance.spSize;
-
-        anim = GetComponent<Animator>();
 
         //ブロックレイヤーを設定する
         //blockingLayer = LayerMask.NameToLayer("Block");
@@ -206,7 +199,7 @@ public abstract class BaseObject : MonoBehaviour {
     {
         AttackSource source = new AttackSource(myStatus, target, index);
 
-        //扱うスキルを取得する
+        //ステートを取り出す
         var statelist = source.StatusJudge();
 
         //---実行---

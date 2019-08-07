@@ -20,7 +20,7 @@ public class Player : BaseObject {
     // Use this for initialization
     protected override void Start() {
         base.Start();
-        GetComponent<StatusData>().priority = -1;
+        //GetComponent<StatusData>().priority = -1;
         GameManager.instance.player = this;
         //animatorの設定
         

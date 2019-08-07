@@ -67,6 +67,7 @@
     <Compile Include="Assets\Scripts\BaseSystem\Enemy.cs" />
     <Compile Include="Assets\Scripts\BaseSystem\GameManager.cs" />
     <Compile Include="Assets\Scripts\BaseSystem\InputManager.cs" />
+    <Compile Include="Assets\Scripts\BaseSystem\Interface_trunUpDate.cs" />
     <Compile Include="Assets\Scripts\BaseSystem\ItemObject.cs" />
     <Compile Include="Assets\Scripts\BaseSystem\MovingObject.cs" />
     <Compile Include="Assets\Scripts\BaseSystem\Player.cs" />

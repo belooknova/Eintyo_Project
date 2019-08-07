@@ -152,6 +152,9 @@ public class GameManager : MonoBehaviour {
     }
 
     //敵リストを更新する
+    /// <summary>
+    /// 敵リストを更新する
+    /// </summary>
     void EnemyListUpdate()
     {
         EnemyList.Clear();
@@ -173,6 +176,9 @@ public class GameManager : MonoBehaviour {
     }
 
     //enemy_stateを初期化するだけ
+    /// <summary>
+    /// enemy_stateを初期化
+    /// </summary>
     void EnemyStateClear()
     {
         this.enemies_state = 0;
