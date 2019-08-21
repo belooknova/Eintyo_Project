@@ -51,7 +51,7 @@ public abstract class BaseObject : MonoBehaviour, Interface_trunUpDate {
         }
 
         //行動順リストに入れる
-        GameManager.instance.ActorList.Add(this.gameObject);
+        GameManager.instance.ActorList_Add(this.gameObject);
         
     }
 

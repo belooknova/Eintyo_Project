@@ -5,7 +5,9 @@ using FormulePurser;
 
 namespace AttackMata
 {
-
+    /// <summary>
+    /// 攻撃情報を保持するクラス
+    /// </summary>
     public class AttackSource
     {
 

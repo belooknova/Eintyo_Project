@@ -10,7 +10,9 @@ using UnityEditor;
 namespace EintyoSystem
 {
 
-    //バフを与えるための情報
+    /// <summary>
+    /// バフを与えるための情報
+    /// </summary>
     [Serializable]
     public class AddBuffSource
     {
@@ -139,7 +141,9 @@ namespace EintyoSystem
     }
 #endif
 
-    //アイテムのメタデータ
+    /// <summary>
+    /// アイテムのメタデータ
+    /// </summary>
     public class ItemData
     {
         public ItemData(int itemId)
@@ -265,7 +269,9 @@ namespace EintyoSystem
 
     }
 
-    //武器のメタデータ
+    /// <summary>
+    /// 武器のメタデータ
+    /// </summary>
     public class WeaponData : ItemData
     {
         public WeaponData(int weaponId) : base(weaponId)
